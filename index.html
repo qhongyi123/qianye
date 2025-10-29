@@ -1204,23 +1204,10 @@
                             e.hasClass('active') && (e.removeClass('active'),
                             t.removeClass('modal-active'),
                             console.log('🎨 关闭设置菜单，取消背景模糊'))
-                        }
+                        }   
                     }
                     )
-                },
-                applyFontFamily(fontFamily) {
-                    $('body').css('font-family', fontFamily);
-                    try {
-                        localStorage.setItem('iswp_font_family', fontFamily);
-                    } catch (e) {
-                         console.warn('无法保存字体设置到本地存储', e);
-                    }
                 }
-                initFontSettings() {
-                    const savedFont = localStorage.getItem('iswp_font_family') || "'Noto Sans SC', sans-serif";
-                    $('#font-selector').val(savedFont);
-                    this.applyFontFamily(savedFont);
-                },
                 async handleDialogueNavigation(e) {
                     if (console.log(`📖 对话导航: ${e}`),
                     'next' === e) {
