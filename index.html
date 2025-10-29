@@ -1110,10 +1110,6 @@
                     $('#fullscreen-toggle').off('change.settings'),
                     $('#reset-settings-btn').off('click.settings'),
                     $(document).off('click.settings'),
-                    $('#modal-close-btn').off('click.modalClose').on('click.modalClose', () => {
-                        $('#modal-container').removeClass('active');
-                        $('#app-container').removeClass('modal-active');
-                    });
                     $('#settings-btn').on('click.settings', e => {
                         e.stopPropagation();
                         const t = $('#settings-menu')
@@ -1789,6 +1785,48 @@
         n.onUnload)()
     }
     );
+            // 在现有的JavaScript代码中添加以下函数
+function setupModalEvents() {
+    // 模态框关闭按钮点击事件
+    $('#modal-close-btn').off('click.modal').on('click.modal', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        console.log('🔴 模态框关闭按钮被点击');
+        
+        // 关闭模态框
+        const modalContainer = $('#modal-container');
+        const appContainer = $('#app-container');
+        
+        modalContainer.removeClass('active');
+        appContainer.removeClass('modal-active');
+        
+        // 隐藏所有视图
+        $('.view-container').removeClass('active');
+        
+        console.log('✅ 模态框已关闭');
+    });
+    
+    // 点击模态框背景关闭模态框
+    $('#modal-container').off('click.modal').on('click.modal', function(e) {
+        // 如果点击的是模态框背景（不是内容区域）
+        if (e.target === this) {
+            console.log('🖱️ 点击模态框背景，关闭模态框');
+            
+            $(this).removeClass('active');
+            $('#app-container').removeClass('modal-active');
+            $('.view-container').removeClass('active');
+        }
+    });
+}
+
+// 确保在页面加载完成后调用
+$(document).ready(function() {
+    setupModalEvents();
+    
+    // 如果已经有其他初始化代码，可以在这里调用
+    // 或者将上面的函数整合到现有的初始化代码中
+});    
 </script>
 <style>
         :root {
