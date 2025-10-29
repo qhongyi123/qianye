@@ -1206,8 +1206,8 @@
                             console.log('🎨 关闭设置菜单，取消背景模糊'))
                         }
                     }
-                    ),
-                }
+                    )
+                },
                 applyFontFamily(fontFamily) {
                     $('body').css('font-family', fontFamily);
                     try {
@@ -1812,7 +1812,7 @@
     }
     );
 </script>
-<style>    /* 从此行开始为第二部分 */
+<style>  //从此行开始为第二部分
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500&family=Kaiti+SC:wght@400;700&family=Dancing+Script:wght@400;700&family=ZCOOL+KuaiLe&family=Press+Start+2P&family=Heiti+SC:wght@400;700&display=swap');
         :root {
             --bg-gradient: #6262629e;
@@ -8647,27 +8647,27 @@
                                     <span>小</span>
                                     <span id="font-size-value">16px</span>
                                     <span>大</span>
-                                </div>         
+                                </div>
+                                <div class="setting-item">
+                                    <div class="setting-info">
+                                        <div class="setting-name">
+                                            <i class="fas fa-font"></i>
+                                            字体选择
+                                        </div>
+                                        <div class="setting-description">选择对话文字的显示字体</div>
+                                    </div>
+                                    <div class="setting-control">
+                                        <select id="font-selector" class="modern-select">
+                                            <option value="'Noto Sans SC', sans-serif">现代简约 (默认)</option>
+                                            <option value="'Kaiti SC', serif">典雅宋体</option>
+                                            <option value="'Dancing Script', cursive">灵动飘逸</option>
+                                            <option value="'ZCOOL KuaiLe', cursive">活泼可爱</option>
+                                            <option value="'Press Start 2P', cursive">像素复古</option>
+                                            <option value="'Heiti SC', sans-serif">粗犷黑体</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="setting-item">
-                        <div class="setting-info">
-                            <div class="setting-name">
-                                <i class="fas fa-font"></i>
-                                字体选择
-                            </div>
-                            <div class="setting-description">选择对话文字的显示字体</div>
-                        </div>
-                        <div class="setting-control">
-                            <select id="font-selector" class="modern-select">
-                                <option value="'Noto Sans SC', sans-serif">现代简约 (默认)</option>
-                                <option value="'Kaiti SC', serif">典雅宋体</option>
-                                <option value="'Dancing Script', cursive">灵动飘逸</option>
-                                <option value="'ZCOOL KuaiLe', cursive">活泼可爱</option>
-                                <option value="'Press Start 2P', cursive">像素复古</option>
-                                <option value="'Heiti SC', sans-serif">粗犷黑体</option>
-                            </select>
                         </div>
                     </div>
                 </div>
@@ -8684,5 +8684,4 @@
         </div>
     </div>
 </body>
-
 
