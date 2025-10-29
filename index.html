@@ -1785,30 +1785,6 @@
         n.onUnload)()
     }
     );
-function setupModalEvents() {
-    // 模态框关闭按钮点击事件
-    $('#modal-close-btn').off('click.modal').on('click.modal', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        console.log('🔴 模态框关闭按钮被点击');
-        
-        // 关闭模态框
-        $('#modal-container').removeClass('active');
-        $('#app-container').removeClass('modal-active');
-        
-        console.log('✅ 模态框已关闭');
-    });
-    
-    // 点击模态框背景关闭模态框
-    $('#modal-container').off('click.modal').on('click.modal', function(e) {
-        if (e.target === this) {
-            console.log('🖱️ 点击模态框背景，关闭模态框');
-            $(this).removeClass('active');
-            $('#app-container').removeClass('modal-active');
-        }
-    });
-}
 </script>
 <style>
         :root {
