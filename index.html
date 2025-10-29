@@ -436,6 +436,12 @@
                     this.imageCache.clear(),
                     this.animatingCharacters.clear(),
                     $('.character-sprite.dynamic').removeClass('dimmed'),
+                    this.stageManager.cleanup();
+                    // 清理全屏预览
+                    $('.cg-fullscreen-overlay').remove();
+                    $(document).off('keydown.cgPreview');
+                    console.log('LLMRP解析器资源已清理');
+                }
                     this.currentSpeaker = null,
                     this.stage = [],
                     this.characterIdCounter = 0,
@@ -956,10 +962,10 @@
                     e.off('click.cgPreview'),
                     console.log('🔧 为CG图片添加点击预览功能:', t, e.length),
                     e.on('click.cgPreview', e => {
-                        e.preventDefault(),
-                        e.stopPropagation(),
+                        event.preventDefault();
+                        event.stopPropagation();
                         console.log('🖱️ 点击CG显示预览:', t),
-                        this.showCGPreview(t)
+                        this.showCGPreview(t);
                     }
                     ),
                     e.on('mouseenter', () => {
@@ -968,70 +974,52 @@
                     )
                 }
                 async showCGPreview(e) {
-                    console.log('🖼️ 准备显示CG预览弹窗:', e);
-                    try {
-                        console.log('🚀 调用SillyTavern.callGenericPopup');
-                        const t = `<img src="${e}" style="max-width: 100%; height: auto;" alt="CG预览" />`
-                          , a = await SillyTavern.callGenericPopup(t, SillyTavern.POPUP_TYPE.DISPLAY, '🖼️ CG预览', {
-                            large: !0,
-                            wide: !0,
-                            okButton: !1,
-                            cancelButton: !1
-                        });
-                        return console.log('✅ CG预览弹窗显示成功:', a),
-                        setTimeout( () => {
-                            this.adjustPopupForImage()
+                    console.log('🖼️ 准备显示CG全屏预览:', e);
+    
+                    // 创建全屏遮罩层
+                    const fullscreenOverlay = $('<div class="cg-fullscreen-overlay"></div>');
+                    const fullscreenImage = $(`<img src="${e}" class="cg-fullscreen-image" alt="CG预览" />`);
+                    const closeBtn = $('<button class="cg-fullscreen-close"><i class="fas fa-times"></i></button>');
+    
+                    // 添加到页面
+                    fullscreenOverlay.append(fullscreenImage, closeBtn);
+                    $('body').append(fullscreenOverlay);
+    
+                    // 显示动画
+                    setTimeout(() => {
+                        fullscreenOverlay.addClass('active');
+                    }, 50);
+    
+                    // 关闭事件
+                    const closePreview = () => {
+                        fullscreenOverlay.removeClass('active');
+                        setTimeout(() => {
+                            fullscreenOverlay.remove();
+                        }, 300);
+                    };
+    
+                    closeBtn.on('click', closePreview);
+                    fullscreenOverlay.on('click', (event) => {
+                        if (event.target === fullscreenOverlay[0]) {
+                            closePreview();
                         }
-                        , 100),
-                        a
-                    } catch (t) {
-                        return console.error('❌ 显示CG预览失败:', t),
-                        o().info(`CG预览：${e}`),
-                        null
-                    }
-                }
-                adjustPopupForImage() {
-                    try {
-                        const e = $('.popup');
-                        if (e.length > 0) {
-                            console.log('🔧 调整弹窗容器样式'),
-                            e.css({
-                                'max-width': '95vw',
-                                'max-height': '95vh',
-                                width: 'auto',
-                                height: 'auto',
-                                'aspect-ratio': 'unset'
-                            });
-                            const t = e.find('.popup-content');
-                            t.length > 0 && t.css({
-                                width: 'auto',
-                                height: 'auto',
-                                'max-width': '100%',
-                                'max-height': '100%',
-                                'aspect-ratio': 'unset',
-                                display: 'flex',
-                                'align-items': 'center',
-                                'justify-content': 'center'
-                            });
-                            const a = e.find('img');
-                            a.length > 0 && a.css({
-                                'max-width': '100%',
-                                'max-height': '85vh',
-                                width: 'auto',
-                                height: 'auto',
-                                'object-fit': 'contain'
-                            })
+                    });
+    
+                    // ESC键关闭
+                    $(document).on('keydown.cgPreview', (event) => {
+                        if (event.key === 'Escape') {
+                            closePreview();
+                            $(document).off('keydown.cgPreview');
                         }
-                    } catch (e) {
-                        console.warn('⚠️ 调整弹窗样式失败:', e)
-                    }
+                    });
+    
+                    // 图片加载错误处理
+                    fullscreenImage.on('error', () => {
+                        console.error('❌ CG图片加载失败:', e);
+                        fullscreenImage.attr('src','data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuWbvueJh+WKoOi9veWksei0pTwvdGV4dD48L3N2Zz4=');
+                    });
+                    console.log('✅ CG全屏预览已显示');
                 }
-                hideCG() {
-                    $('#cg-layer').removeClass('active'),
-                    this.displayedCG = null,
-                    console.log('🧹 隐藏CG')
-                }
-            }
             class r {
                 dataManager;
                 uiController;
@@ -3821,4 +3809,3 @@
         </div>
     </div>
 </body>
-
