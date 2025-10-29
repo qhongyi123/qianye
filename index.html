@@ -1102,6 +1102,11 @@
                 }
                 setupSettingsEvents() {
                     $('#settings-btn').off('click.settings'),
+                    $('#modal-close-btn').off('click.modalClose').on('click.modalClose', () => {
+                        $('#modal-container').removeClass('active');
+                        $('#app-container').removeClass('modal-active');
+                        console.log('🔒 模态框已关闭');
+                    });
                     $('.theme-btn').off('click.settings'),
                     $('#breathing-toggle').off('change.settings'),
                     $('#text-animation-type, #text-speed-slider, #font-size-slider').off('change.settings input.settings'),
@@ -3518,43 +3523,36 @@
                                 <div class="nav-icon">
                                     <i class="fas fa-user-circle"></i>
                                 </div>
-                                <span class="nav-text">状态</span>
                             </button>
                             <button class="nav-btn" data-view="hummingbird">
                                 <div class="nav-icon">
                                     <i class="fas fa-comments"></i>
                                 </div>
-                                <span class="nav-text">蜂鸟</span>
                             </button>
                             <button class="nav-btn" data-view="map">
                                 <div class="nav-icon">
                                     <i class="fas fa-map"></i>
                                 </div>
-                                <span class="nav-text">地图</span>
                             </button>
                             <button class="nav-btn" data-view="memoir">
                                 <div class="nav-icon">
                                     <i class="fas fa-journal-whills"></i>
                                 </div>
-                                <span class="nav-text">回忆录</span>
                             </button>
                             <button class="nav-btn" data-view="quests">
                                 <div class="nav-icon">
                                     <i class="fas fa-tasks"></i>
                                 </div>
-                                <span class="nav-text">任务</span>
                             </button>
                             <button class="nav-btn" data-view="newspaper">
                                 <div class="nav-icon">
                                     <i class="fas fa-newspaper"></i>
                                 </div>
-                                <span class="nav-text">报纸</span>
                             </button>
                             <button class="nav-btn" data-view="commands">
                                 <div class="nav-icon">
                                     <i class="fas fa-list-alt"></i>
                                 </div>
-                                <span class="nav-text">行动</span>
                             </button>
                             <button class="nav-btn" id="settings-btn">
                                 <div class="nav-icon">
@@ -3641,11 +3639,9 @@
                         <div class="panel-tabs rpg-tabs">
                             <button class="tab-btn active" data-tab="overview">
                                 <i class="fas fa-user-circle"></i>
-                                <span>概览</span>
                             </button>
                             <button class="tab-btn" data-tab="inventory">
                                 <i class="fas fa-bag-shopping"></i>
-                                <span>背包</span>
                             </button>
                         </div>
                     </div>
@@ -3865,11 +3861,9 @@
                             <div class="commands-controls">
                                 <button id="send-all-commands" class="primary-btn" disabled="disabled">
                                     <i class="fas fa-play"></i>
-                                    执行所有行动
                                 </button>
                                 <button id="clear-all-commands" class="secondary-btn" disabled="disabled">
                                     <i class="fas fa-trash"></i>
-                                    清空计划
                                 </button>
                             </div>
                             <div class="commands-list-container">
@@ -4091,5 +4085,3 @@
         </div>
     </div>
 </body>
-
-
