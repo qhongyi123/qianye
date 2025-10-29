@@ -1112,11 +1112,6 @@
                         console.log('🔒 模态框已关闭');
                     });
                     $('#keyboard-shortcuts-toggle').off('change.settings'),
-                    $('#font-selector').off('change.font').on('change.font', e => {
-                        const fontFamily = $(e.currentTarget).val();
-                        this.applyFontFamily(fontFamily);
-                        console.log(`🔤 字体切换为: ${fontFamily}`);
-                    });    
                     $('#fullscreen-toggle').off('change.settings'),
                     $('#reset-settings-btn').off('click.settings'),
                     $(document).off('click.settings'),
@@ -1131,7 +1126,6 @@
                         this.initBGMSettingsState(),
                         this.initKeyboardShortcutsState(),
                         this.initFullscreenState(),
-                        this.initFontSettings();
                         console.log('🎨 激活背景模糊效果')) : (a.removeClass('modal-active'),
                         console.log('🎨 取消背景模糊效果'))
                     }
@@ -1207,20 +1201,7 @@
                         }
                     }
                     )
-                },
-                applyFontFamily(fontFamily) {
-                    $('body').css('font-family', fontFamily);
-                    try {
-                        localStorage.setItem('iswp_font_family', fontFamily);
-                    } catch (e) {
-                         console.warn('无法保存字体设置到本地存储', e);
-                    }
                 }
-                initFontSettings() {
-                    const savedFont = localStorage.getItem('iswp_font_family') || "'Noto Sans SC', sans-serif";
-                    $('#font-selector').val(savedFont);
-                    this.applyFontFamily(savedFont);
-                },
                 async handleDialogueNavigation(e) {
                     if (console.log(`📖 对话导航: ${e}`),
                     'next' === e) {
@@ -1318,8 +1299,6 @@
                         this.setBGMEnabled(!0),
                         $('#fullscreen-toggle').prop('checked', !1),
                         this.setFullscreenEnabled(!1),
-                        $('#font-selector').val("'Noto Sans SC', sans-serif");
-                        this.applyFontFamily("'Noto Sans SC', sans-serif");
                         o().success('设置已恢复为默认值')
                     } catch (e) {
                         console.error('恢复默认设置时出错:', e),
@@ -1813,7 +1792,6 @@
     );
 </script>
 <style>  //从此行开始为第二部分
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500&family=Kaiti+SC:wght@400;700&family=Dancing+Script:wght@400;700&family=ZCOOL+KuaiLe&family=Press+Start+2P&family=Heiti+SC:wght@400;700&display=swap');
         :root {
             --bg-gradient: #6262629e;
             --text-color: #f5f5f7;
@@ -8647,25 +8625,6 @@
                                     <span>小</span>
                                     <span id="font-size-value">16px</span>
                                     <span>大</span>
-                                </div>
-                                <div class="setting-item">
-                                    <div class="setting-info">
-                                        <div class="setting-name">
-                                            <i class="fas fa-font"></i>
-                                            字体选择
-                                        </div>
-                                        <div class="setting-description">选择对话文字的显示字体</div>
-                                    </div>
-                                    <div class="setting-control">
-                                        <select id="font-selector" class="modern-select">
-                                            <option value="'Noto Sans SC', sans-serif">现代简约 (默认)</option>
-                                            <option value="'Kaiti SC', serif">典雅宋体</option>
-                                            <option value="'Dancing Script', cursive">灵动飘逸</option>
-                                            <option value="'ZCOOL KuaiLe', cursive">活泼可爱</option>
-                                            <option value="'Press Start 2P', cursive">像素复古</option>
-                                            <option value="'Heiti SC', sans-serif">粗犷黑体</option>
-                                        </select>
-                                    </div>
                                 </div>
                             </div>
                         </div>
