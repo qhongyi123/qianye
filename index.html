@@ -1,39 +1,39 @@
-<头>
-    <样式>
-        身体 {
-            背景: #000000bf!重要;
-            颜色: #f5f5f7!重要
+<head>
+    <style>
+        body {
+            background: #000000bf!important;
+            color: #f5f5f7!important
         }
-    </样式>
-<脚本 类型="模块">
-    变量 e = {
-        387：（e，t，a） => {
+    </style>
+<script type="module">
+    var e = {
+        387: (e, t, a) => {
             a.d(t, {
-                强制更新：（） => 状态，
-                获取应用实例：（） => k，
-                加载时：（） => C，
-                onUnload：（） => w，
-                保存游戏状态：（） => x
-            })，
-            一个.点(时);
-            常量 i = toastr;
-            变量 o = a.元素(i);
-            类 l {
-                当前动画 = 无;
+                forceUpdate: () => S,
+                getAppInstances: () => k,
+                onLoad: () => C,
+                onUnload: () => w,
+                saveGameState: () => x
+            }),
+            a.r(t);
+            const i = toastr;
+            var o = a.n(i);
+            class l {
+                currentAnimation = null;
                 isAnimating = !1;
-                当前文本 = '';
-                目标元素 = 无;
-                动画速度 = 50;
-                动画类型 = '打字机';
-                构造函数() {
-                    这个.加载设置()
+                currentText = '';
+                targetElement = null;
+                animationSpeed = 50;
+                animationType = 'typewriter';
+                constructor() {
+                    this.loadSettings()
                 }
-                加载设置() {
-                    常量 e = localStorage.getItem('textAnimationSpeed')
-                      , 时间 = localStorage.getItem('textAnimationType')
+                loadSettings() {
+                    const e = localStorage.getItem('textAnimationSpeed')
+                      , t = localStorage.getItem('textAnimationType')
                       , a = localStorage.getItem('dialogueFontSize');
-                    这个 && (动画速度 = 解析整数(e, 10)),
-                    包括 && [' typewriter ', ' fade ', ' instant '].包括(t) && (这个.animationType = t),
+                    e && (this.animationSpeed = parseInt(e, 10)),
+                    t && ['typewriter', 'fade', 'instant'].includes(t) && (this.animationType = t),
                     a && this.applyFontSize(parseInt(a, 10))
                 }
                 saveSettings() {
@@ -4091,3 +4091,5 @@
         </div>
     </div>
 </body>
+
+
