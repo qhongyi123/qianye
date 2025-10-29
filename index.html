@@ -1801,8 +1801,6 @@ function setupModalEvents() {
         modalContainer.removeClass('active');
         appContainer.removeClass('modal-active');
         
-        // 隐藏所有视图
-        $('.view-container').removeClass('active');
         
         console.log('✅ 模态框已关闭');
     });
@@ -1815,7 +1813,6 @@ function setupModalEvents() {
             
             $(this).removeClass('active');
             $('#app-container').removeClass('modal-active');
-            $('.view-container').removeClass('active');
         }
     });
 }
