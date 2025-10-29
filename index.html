@@ -1110,6 +1110,10 @@
                     $('#fullscreen-toggle').off('change.settings'),
                     $('#reset-settings-btn').off('click.settings'),
                     $(document).off('click.settings'),
+                    $('#modal-close-btn').off('click.modalClose').on('click.modalClose', () => {
+                        $('#modal-container').removeClass('active');
+                        $('#app-container').removeClass('modal-active');
+                    });
                     $('#settings-btn').on('click.settings', e => {
                         e.stopPropagation();
                         const t = $('#settings-menu')
