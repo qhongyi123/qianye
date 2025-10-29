@@ -1195,7 +1195,16 @@
                             console.log('🎨 关闭设置菜单，取消背景模糊'))
                         }
                     }
-                    )
+                    ),
+                    $('#modal-close-btn').off('click.modal').on('click.modal', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const modalContainer = $('#modal-container');
+                        const appContainer = $('#app-container');
+                        modalContainer.removeClass('active');
+                        appContainer.removeClass('modal-active');
+                        console.log('🎯 关闭模态容器');
+                    });
                 }
                 async handleDialogueNavigation(e) {
                     if (console.log(`📖 对话导航: ${e}`),
