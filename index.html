@@ -2236,144 +2236,7 @@
             transition: all .4s cubic-bezier(0.25,0.46,0.45,0.94)
         }
 
-        .top-header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            width: 100%;
-            gap: 20px;
-            pointer-events: auto
-        }
-
-        #main-nav {
-            display: flex;
-            align-items: center;
-            gap: 8px
-        }
-
-        .nav-btn {
-            display: flex;
-            align-items: center;
-            padding: 4px;
-            margin: 0;
-            background: var(--ui-bg);
-            border: 1px solid rgba(0,0,0,0);
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all .4s cubic-bezier(0.25,0.46,0.45,0.94);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: 0 2px 8px var(--shadow-color-light)
-        }
-
-        .nav-btn:hover {
-            background: var(--primary-color-light);
-            border-color: var(--primary-color-lighter)
-        }
-
-        .nav-btn.active {
-            background: var(--primary-color)
-        }
-
-        .nav-icon {
-            width: 32px;
-            height: 32px;
-            background: rgba(0,0,0,0);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: none;
-            transition: all .4s ease
-        }
-
-        .nav-icon i {
-            font-size: 16px;
-            color: var(--text-color);
-            transition: color .5s ease
-        }
-
-        .nav-btn.active .nav-icon i {
-            color: #fff
-        }
-
-        .nav-text {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-color);
-            white-space: nowrap;
-            max-width: 0;
-            opacity: 0;
-            overflow: hidden;
-            transition: all .4s cubic-bezier(0.25,0.46,0.45,0.94);
-            margin-left: 0
-        }
-
-        .nav-btn:hover .nav-text,.nav-btn.active .nav-text {
-            max-width: 60px;
-            opacity: 1;
-            margin-left: 8px;
-            margin-right: 8px
-        }
-
-        .nav-btn.active .nav-text {
-            color: #fff
-        }
-
-        .nav-btn.disabled,.nav-btn:disabled {
-            opacity: .5;
-            cursor: not-allowed;
-            pointer-events: none
-        }
-
-        .nav-btn.disabled:hover,.nav-btn:disabled:hover {
-            background: var(--ui-bg);
-            border-color: var(--ui-border-color)
-        }
-
-        .nav-btn.disabled .nav-text,.nav-btn:disabled .nav-text {
-            max-width: 0;
-            opacity: 0;
-            margin-left: 0;
-            margin-right: 0
-        }
-
-        .nav-btn.active {
-            background: var(--primary-color)
-        }
-
-        .nav-btn.active .nav-icon i {
-            color: #fff
-        }
-
-        .nav-btn.active .nav-text {
-            color: #fff
-        }
-
-        .nav-btn:hover .nav-text,.nav-btn.active .nav-text {
-            max-width: 60px;
-            opacity: 1;
-            margin-left: 8px;
-            margin-right: 8px
-        }
-
-        @media (max-width: 768px) {
-            .nav-text {
-                display:none
-            }
-
-            .nav-icon {
-                margin-right: 0
-            }
-
-            .nav-btn {
-                min-width: 36px;
-                height: 36px;
-                padding: 2px
-            }
-        }
-
+        /* === 视觉小说部分开始 === */
         #content-area {
             flex: 1;
             position: relative;
@@ -2381,73 +2244,17 @@
             transition: all .4s cubic-bezier(0.25,0.46,0.45,0.94)
         }
 
-        .modal-view-container {
+        .background-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
+            background: #000;
             opacity: 0;
-            visibility: hidden;
-            transition: opacity .4s,visibility .4s;
-            background-color: rgba(0,0,0,.3)
-        }
-
-        .modal-view-container.active {
-            opacity: 1;
-            visibility: visible
-        }
-
-        .modal-content {
-            width: 90%;
-            max-width: 1200px;
-            height: 85%;
-            max-height: 800px;
-            background: var(--ui-bg-heavy);
-            backdrop-filter: blur(var(--blur-intensity));
-            -webkit-backdrop-filter: blur(var(--blur-intensity));
-            border-radius: 24px;
-            box-shadow: 0 16px 64px var(--shadow-color-medium);
-            border: 1px solid var(--ui-border-color);
-            transform: scale(0.95);
-            transition: transform .4s cubic-bezier(0.25,0.46,0.45,0.94),background-color .5s ease,border-color .5s ease;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            min-height: 0;
-            overflow: hidden
-        }
-
-        .modal-view-container.active .modal-content {
-            transform: scale(1)
-        }
-
-        .modal-close-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 30px;
-            height: 30px;
-            background: rgba(0,0,0,.1);
-            border: none;
-            border-radius: 50%;
-            color: var(--text-color);
-            cursor: pointer;
-            font-size: 16px;
-            z-index: 110;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all .3s ease
-        }
-
-        .modal-close-btn:hover {
-            background: rgba(0,0,0,.2);
-            transform: rotate(90deg)
+            z-index: 2;
+            pointer-events: none;
+            transition: opacity .5s ease
         }
 
         .character-layer {
@@ -2666,71 +2473,6 @@
             }
         }
 
-        .background-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            opacity: 0;
-            z-index: 2;
-            pointer-events: none;
-            transition: opacity .5s ease
-        }
-
-        .ui-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 10;
-            pointer-events: none
-        }
-
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--ui-bg);
-            backdrop-filter: blur(var(--blur-intensity));
-            -webkit-backdrop-filter: blur(var(--blur-intensity));
-            padding: 12px 20px;
-            border-radius: 16px;
-            box-shadow: 0 4px 16px var(--shadow-color-light);
-            transition: background-color .5s ease;
-            flex-grow: 1
-        }
-
-        .game-info {
-            display: flex;
-            align-items: center;
-            gap: 20px
-        }
-
-        .money-display {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            font-weight: 500;
-            color: var(--text-color)
-        }
-
-        .money-item {
-            display: flex;
-            align-items: center;
-            gap: 8px
-        }
-
-        .game-date,.player-status,.game-location,.game-time-period {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 500;
-            color: var(--text-color)
-        }
-
         .dialogue-box {
             position: absolute;
             bottom: 20px;
@@ -2808,6 +2550,659 @@
 
         .control-btn i {
             font-size: 18px
+        }
+
+        .dialogue-bottom-controls {
+            display: flex;
+            align-items: center;
+            margin-top: 16px;
+            gap: 16px
+        }
+
+        .player-choice-input {
+            flex: 1
+        }
+
+        .player-choice-input .choice-input-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            background: var(--ui-bg);
+            border: 1px solid var(--ui-border-color);
+            border-radius: 6px;
+            padding: 8px 12px
+        }
+
+        .player-choice-input .choice-input-controls .choice-input-icon {
+            color: #fff;
+            font-size: 14px;
+            flex-shrink: 0
+        }
+
+        .player-choice-input .choice-input-controls #choice-text-input {
+            flex-grow: 1;
+            padding: 6px 8px;
+            border: none;
+            background: rgba(0,0,0,0);
+            color: var(--text-color);
+            font-size: 14px;
+            outline: none
+        }
+
+        .player-choice-input .choice-input-controls #choice-text-input::placeholder {
+            color: var(--text-color-secondary);
+            opacity: .7
+        }
+
+        .player-choice-input .choice-input-controls .choice-add-btn {
+            width: 32px;
+            height: 32px;
+            background: rgba(0,0,0,0);
+            color: var(--text-color);
+            border: none;
+            cursor: pointer;
+            transition: all .3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0
+        }
+
+        .player-choice-input .choice-input-controls .choice-add-btn:hover {
+            color: var(--primary-color);
+            transform: scale(1.2)
+        }
+
+        .player-choice-input .choice-input-controls .choice-add-btn:active {
+            transform: scale(1)
+        }
+
+        .player-choice-input .choice-input-controls .choice-add-btn.clicked {
+            color: #34d399;
+            transform: scale(1.1)
+        }
+
+        .player-choice-input .choice-input-controls .choice-add-btn i {
+            font-size: 16px
+        }
+
+        .character-sprite.dynamic.character-shake.pos-left {
+            animation: characterShakeLeft .6s ease-in-out !important
+        }
+
+        .character-sprite.dynamic.character-shake.pos-center {
+            animation: characterShakeCenter .6s ease-in-out !important
+        }
+
+        .character-sprite.dynamic.character-shake.pos-right {
+            animation: characterShakeRight .6s ease-in-out
+        }
+
+        .character-sprite.dynamic.character-shake.pos-three-left {
+            animation: characterShakeThreeLeft .6s ease-in-out
+        }
+
+        .character-sprite.dynamic.character-shake.pos-three-center {
+            animation: characterShakeThreeCenter .6s ease-in-out
+        }
+
+        .character-sprite.dynamic.character-shake.pos-three-right {
+            animation: characterShakeThreeRight .6s ease-in-out
+        }
+
+        @keyframes characterShakeLeft {
+            0%,100% {
+                transform: translateX(-50%) translateY(-30%)
+            }
+
+            10%,30%,50%,70%,90% {
+                transform: translateX(-50%) translateY(-30%) translateX(-5px)
+            }
+
+            20%,40%,60%,80% {
+                transform: translateX(-50%) translateY(-30%) translateX(5px)
+            }
+        }
+
+        @keyframes characterShakeCenter {
+            0%,100% {
+                transform: translateX(-50%) translateY(-30%)
+            }
+
+            10%,30%,50%,70%,90% {
+                transform: translateX(-50%) translateY(-30%) translateX(-5px)
+            }
+
+            20%,40%,60%,80% {
+                transform: translateX(-50%) translateY(-30%) translateX(5px)
+            }
+        }
+
+        @keyframes characterShakeRight {
+            0%,100% {
+                transform: translateX(-50%) translateY(-30%)
+            }
+
+            10%,30%,50%,70%,90% {
+                transform: translateX(-50%) translateY(-30%) translateX(-5px)
+            }
+
+            20%,40%,60%,80% {
+                transform: translateX(-50%) translateY(-30%) translateX(5px)
+            }
+        }
+
+        @keyframes characterShakeThreeLeft {
+            0%,100% {
+                transform: translateX(-50%) translateY(-30%)
+            }
+
+            10%,30%,50%,70%,90% {
+                transform: translateX(-50%) translateY(-30%) translateX(-5px)
+            }
+
+            20%,40%,60%,80% {
+                transform: translateX(-50%) translateY(-30%) translateX(5px)
+            }
+        }
+
+        @keyframes characterShakeThreeCenter {
+            0%,100% {
+                transform: translateX(-50%) translateY(-30%)
+            }
+
+            10%,30%,50%,70%,90% {
+                transform: translateX(-50%) translateY(-30%) translateX(-5px)
+            }
+
+            20%,40%,60%,80% {
+                transform: translateX(-50%) translateY(-30%) translateX(5px)
+            }
+        }
+
+        @keyframes characterShakeThreeRight {
+            0%,100% {
+                transform: translateX(-50%) translateY(-30%)
+            }
+
+            10%,30%,50%,70%,90% {
+                transform: translateX(-50%) translateY(-30%) translateX(-5px)
+            }
+
+            20%,40%,60%,80% {
+                transform: translateX(-50%) translateY(-30%) translateX(5px)
+            }
+        }
+
+        .character-sprite.dynamic.character-jump-up.pos-left,.character-sprite.dynamic.character-jump-up.pos-center,.character-sprite.dynamic.character-jump-up.pos-right,.character-sprite.dynamic.character-jump-up.pos-three-left,.character-sprite.dynamic.character-jump-up.pos-three-center,.character-sprite.dynamic.character-jump-up.pos-three-right {
+            animation: characterJumpUp .4s ease-out
+        }
+
+        @keyframes characterJumpUp {
+            0% {
+                transform: translateX(-50%) translateY(-30%)
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(-30%) translateY(-25px)
+            }
+
+            100% {
+                transform: translateX(-50%) translateY(-30%)
+            }
+        }
+
+        .character-sprite.dynamic.character-jump-down.pos-left,.character-sprite.dynamic.character-jump-down.pos-center,.character-sprite.dynamic.character-jump-down.pos-right,.character-sprite.dynamic.character-jump-down.pos-three-left,.character-sprite.dynamic.character-jump-down.pos-three-center,.character-sprite.dynamic.character-jump-down.pos-three-right {
+            animation: characterJumpDown .4s ease-out
+        }
+
+        @keyframes characterJumpDown {
+            0% {
+                transform: translateX(-50%) translateY(-30%)
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(-30%) translateY(15px)
+            }
+
+            100% {
+                transform: translateX(-50%) translateY(-30%)
+            }
+        }
+
+        .character-sprite.dynamic.character-tilt.pos-left,.character-sprite.dynamic.character-tilt.pos-center,.character-sprite.dynamic.character-tilt.pos-right,.character-sprite.dynamic.character-tilt.pos-three-left,.character-sprite.dynamic.character-tilt.pos-three-center,.character-sprite.dynamic.character-tilt.pos-three-right {
+            animation: characterTilt .8s ease-in-out
+        }
+
+        @keyframes characterTilt {
+            0% {
+                transform: translateX(-50%) translateY(-30%) rotate(0deg)
+            }
+
+            25% {
+                transform: translateX(-50%) translateY(-30%) rotate(-4deg)
+            }
+
+            75% {
+                transform: translateX(-50%) translateY(-30%) rotate(4deg)
+            }
+
+            100% {
+                transform: translateX(-50%) translateY(-30%) rotate(0deg)
+            }
+        }
+
+        .character-sprite.dynamic.character-shake,.character-sprite.dynamic.character-jump-up,.character-sprite.dynamic.character-jump-down,.character-sprite.dynamic.character-tilt {
+            pointer-events: none;
+            z-index: inherit
+        }
+
+        .character-sprite.dynamic.breathing-natural.pos-left,.character-sprite.dynamic.breathing-natural.pos-center,.character-sprite.dynamic.breathing-natural.pos-right,.character-sprite.dynamic.breathing-natural.pos-three-left,.character-sprite.dynamic.breathing-natural.pos-three-center,.character-sprite.dynamic.breathing-natural.pos-three-right {
+            animation: naturalBreathing 4.2s cubic-bezier(0.4,0,0.6,1) infinite
+        }
+
+        .character-sprite.dynamic.breathing-sway.pos-left,.character-sprite.dynamic.breathing-sway.pos-center,.character-sprite.dynamic.breathing-sway.pos-right,.character-sprite.dynamic.breathing-sway.pos-three-left,.character-sprite.dynamic.breathing-sway.pos-three-center,.character-sprite.dynamic.breathing-sway.pos-three-right {
+            animation: gentleSway 6.8s cubic-bezier(0.25,0.46,0.45,0.94) infinite
+        }
+
+        .character-sprite.dynamic.breathing-pulse.pos-left,.character-sprite.dynamic.breathing-pulse.pos-center,.character-sprite.dynamic.breathing-pulse.pos-right,.character-sprite.dynamic.breathing-pulse.pos-three-left,.character-sprite.dynamic.breathing-pulse.pos-three-center,.character-sprite.dynamic.breathing-pulse.pos-three-right {
+            animation: vitalPulse 3.8s ease-in-out infinite
+        }
+
+        .character-sprite.dynamic.breathing-natural.pos-left,.character-sprite.dynamic.breathing-natural.pos-center,.character-sprite.dynamic.breathing-natural.pos-right,.character-sprite.dynamic.breathing-natural.pos-three-left,.character-sprite.dynamic.breathing-natural.pos-three-center,.character-sprite.dynamic.breathing-natural.pos-three-right {
+            animation: naturalBreathingRealistic 4s ease-out infinite
+        }
+
+        .character-sprite.dynamic.breathing-rhythmic.pos-left,.character-sprite.dynamic.breathing-rhythmic.pos-center,.character-sprite.dynamic.breathing-rhythmic.pos-right,.character-sprite.dynamic.breathing-rhythmic.pos-three-left,.character-sprite.dynamic.breathing-rhythmic.pos-three-center,.character-sprite.dynamic.breathing-rhythmic.pos-three-right {
+            animation: rhythmicBreathing 2.4s linear infinite
+        }
+
+        @keyframes naturalBreathing {
+            0% {
+                transform: translateX(-50%) translateY(-30%) scale(1)
+            }
+
+            25% {
+                transform: translateX(-50%) translateY(calc(-30% - 1px)) scale(1.002)
+            }
+
+            35% {
+                transform: translateX(-50%) translateY(calc(-30% - 1.2px)) scale(1.003)
+            }
+
+            75% {
+                transform: translateX(-50%) translateY(calc(-30% + 0.8px)) scale(0.999)
+            }
+
+            100% {
+                transform: translateX(-50%) translateY(-30%) scale(1)
+            }
+        }
+
+        @keyframes gentleSway {
+            0% {
+                transform: translateX(-50%) translateY(-30%)
+            }
+
+            25% {
+                transform: translateX(calc(-50% + 0.8px)) translateY(calc(-30% - 0.3px))
+            }
+
+            50% {
+                transform: translateX(calc(-50% + 0.2px)) translateY(calc(-30% + 0.5px))
+            }
+
+            75% {
+                transform: translateX(calc(-50% - 0.6px)) translateY(calc(-30% - 0.2px))
+            }
+
+            100% {
+                transform: translateX(-50%) translateY(-30%)
+            }
+        }
+
+        @keyframes vitalPulse {
+            0%,100% {
+                transform: translateX(-50%) translateY(-30%) scale(1)
+            }
+
+            20% {
+                transform: translateX(-50%) translateY(-30%) scale(1.001)
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(-30%) scale(1.004)
+            }
+
+            80% {
+                transform: translateX(-50%) translateY(-30%) scale(1.001)
+            }
+        }
+
+        @keyframes naturalBreathingRealistic {
+            0% {
+                transform: translateX(-50%) translateY(-30%) scale(1)
+            }
+
+            15% {
+                transform: translateX(-50%) translateY(calc(-30% - 0.3px)) scale(1.0008)
+            }
+
+            33% {
+                transform: translateX(-50%) translateY(calc(-30% - 0.6px)) scale(1.0015)
+            }
+
+            40% {
+                transform: translateX(-50%) translateY(calc(-30% - 0.6px)) scale(1.0015)
+            }
+
+            70% {
+                transform: translateX(-50%) translateY(calc(-30% - 0.2px)) scale(1.0005)
+            }
+
+            100% {
+                transform: translateX(-50%) translateY(-30%) scale(1)
+            }
+        }
+
+        @keyframes rhythmicBreathing {
+            0%,100% {
+                transform: translateX(-50%) translateY(-30%) scale(1)
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(calc(-30% + 1px)) scale(1.002)
+            }
+        }
+
+        .character-sprite.dynamic[class*=breathing-] {
+            pointer-events: auto;
+            z-index: inherit;
+            will-change: transform;
+            backface-visibility: hidden;
+            transform-style: preserve-3d
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+            .character-sprite.dynamic[class*=breathing-] {
+                animation-duration: 8s !important;
+                animation-timing-function: linear !important
+            }
+
+            @keyframes naturalBreathingRealistic {
+                0%,100% {
+                    transform: translateX(-50%) translateY(-30%) scale(1)
+                }
+
+                33% {
+                    transform: translateX(-50%) translateY(calc(-30% - 0.15px)) scale(1.0003)
+                }
+
+                40% {
+                    transform: translateX(-50%) translateY(calc(-30% - 0.15px)) scale(1.0003)
+                }
+            }
+        }
+        /* === 视觉小说部分结束 === */
+
+        /* === UI界面部分开始 === */
+        .top-header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            width: 100%;
+            gap: 20px;
+            pointer-events: auto
+        }
+
+        #main-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            padding: 4px;
+            margin: 0;
+            background: var(--ui-bg);
+            border: 1px solid rgba(0,0,0,0);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all .4s cubic-bezier(0.25,0.46,0.45,0.94);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 2px 8px var(--shadow-color-light)
+        }
+
+        .nav-btn:hover {
+            background: var(--primary-color-light);
+            border-color: var(--primary-color-lighter)
+        }
+
+        .nav-btn.active {
+            background: var(--primary-color)
+        }
+
+        .nav-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(0,0,0,0);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: none;
+            transition: all .4s ease
+        }
+
+        .nav-icon i {
+            font-size: 16px;
+            color: var(--text-color);
+            transition: color .5s ease
+        }
+
+        .nav-btn.active .nav-icon i {
+            color: #fff
+        }
+
+        .nav-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-color);
+            white-space: nowrap;
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all .4s cubic-bezier(0.25,0.46,0.45,0.94);
+            margin-left: 0
+        }
+
+        .nav-btn:hover .nav-text,.nav-btn.active .nav-text {
+            max-width: 60px;
+            opacity: 1;
+            margin-left: 8px;
+            margin-right: 8px
+        }
+
+        .nav-btn.active .nav-text {
+            color: #fff
+        }
+
+        .nav-btn.disabled,.nav-btn:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+            pointer-events: none
+        }
+
+        .nav-btn.disabled:hover,.nav-btn:disabled:hover {
+            background: var(--ui-bg);
+            border-color: var(--ui-border-color)
+        }
+
+        .nav-btn.disabled .nav-text,.nav-btn:disabled .nav-text {
+            max-width: 0;
+            opacity: 0;
+            margin-left: 0;
+            margin-right: 0
+        }
+
+        .nav-btn.active {
+            background: var(--primary-color)
+        }
+
+        .nav-btn.active .nav-icon i {
+            color: #fff
+        }
+
+        .nav-btn.active .nav-text {
+            color: #fff
+        }
+
+        .nav-btn:hover .nav-text,.nav-btn.active .nav-text {
+            max-width: 60px;
+            opacity: 1;
+            margin-left: 8px;
+            margin-right: 8px
+        }
+
+        @media (max-width: 768px) {
+            .nav-text {
+                display:none
+            }
+
+            .nav-icon {
+                margin-right: 0
+            }
+
+            .nav-btn {
+                min-width: 36px;
+                height: 36px;
+                padding: 2px
+            }
+        }
+
+        .modal-view-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .4s,visibility .4s;
+            background-color: rgba(0,0,0,.3)
+        }
+
+        .modal-view-container.active {
+            opacity: 1;
+            visibility: visible
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 1200px;
+            height: 85%;
+            max-height: 800px;
+            background: var(--ui-bg-heavy);
+            backdrop-filter: blur(var(--blur-intensity));
+            -webkit-backdrop-filter: blur(var(--blur-intensity));
+            border-radius: 24px;
+            box-shadow: 0 16px 64px var(--shadow-color-medium);
+            border: 1px solid var(--ui-border-color);
+            transform: scale(0.95);
+            transition: transform .4s cubic-bezier(0.25,0.46,0.45,0.94),background-color .5s ease,border-color .5s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            overflow: hidden
+        }
+
+        .modal-view-container.active .modal-content {
+            transform: scale(1)
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            background: rgba(0,0,0,.1);
+            border: none;
+            border-radius: 50%;
+            color: var(--text-color);
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 110;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all .3s ease
+        }
+
+        .modal-close-btn:hover {
+            background: rgba(0,0,0,.2);
+            transform: rotate(90deg)
+        }
+
+        .ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--ui-bg);
+            backdrop-filter: blur(var(--blur-intensity));
+            -webkit-backdrop-filter: blur(var(--blur-intensity));
+            padding: 12px 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px var(--shadow-color-light);
+            transition: background-color .5s ease;
+            flex-grow: 1
+        }
+
+        .game-info {
+            display: flex;
+            align-items: center;
+            gap: 20px
+        }
+
+        .money-display {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-weight: 500;
+            color: var(--text-color)
+        }
+
+        .money-item {
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .game-date,.player-status,.game-location,.game-time-period {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            color: var(--text-color)
         }
 
         .character-hover-trigger {
@@ -3503,398 +3898,6 @@
         .reset-btn:focus {
             outline: none;
             box-shadow: 0 0 0 3px rgba(var(--accent-color-rgb),0.3)
-        }
-
-        .dialogue-bottom-controls {
-            display: flex;
-            align-items: center;
-            margin-top: 16px;
-            gap: 16px
-        }
-
-        .player-choice-input {
-            flex: 1
-        }
-
-        .player-choice-input .choice-input-controls {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            background: var(--ui-bg);
-            border: 1px solid var(--ui-border-color);
-            border-radius: 6px;
-            padding: 8px 12px
-        }
-
-        .player-choice-input .choice-input-controls .choice-input-icon {
-            color: #fff;
-            font-size: 14px;
-            flex-shrink: 0
-        }
-
-        .player-choice-input .choice-input-controls #choice-text-input {
-            flex-grow: 1;
-            padding: 6px 8px;
-            border: none;
-            background: rgba(0,0,0,0);
-            color: var(--text-color);
-            font-size: 14px;
-            outline: none
-        }
-
-        .player-choice-input .choice-input-controls #choice-text-input::placeholder {
-            color: var(--text-color-secondary);
-            opacity: .7
-        }
-
-        .player-choice-input .choice-input-controls .choice-add-btn {
-            width: 32px;
-            height: 32px;
-            background: rgba(0,0,0,0);
-            color: var(--text-color);
-            border: none;
-            cursor: pointer;
-            transition: all .3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0
-        }
-
-        .player-choice-input .choice-input-controls .choice-add-btn:hover {
-            color: var(--primary-color);
-            transform: scale(1.2)
-        }
-
-        .player-choice-input .choice-input-controls .choice-add-btn:active {
-            transform: scale(1)
-        }
-
-        .player-choice-input .choice-input-controls .choice-add-btn.clicked {
-            color: #34d399;
-            transform: scale(1.1)
-        }
-
-        .player-choice-input .choice-input-controls .choice-add-btn i {
-            font-size: 16px
-        }
-
-        .character-sprite.dynamic.character-shake.pos-left {
-            animation: characterShakeLeft .6s ease-in-out !important
-        }
-
-        .character-sprite.dynamic.character-shake.pos-center {
-            animation: characterShakeCenter .6s ease-in-out !important
-        }
-
-        .character-sprite.dynamic.character-shake.pos-right {
-            animation: characterShakeRight .6s ease-in-out
-        }
-
-        .character-sprite.dynamic.character-shake.pos-three-left {
-            animation: characterShakeThreeLeft .6s ease-in-out
-        }
-
-        .character-sprite.dynamic.character-shake.pos-three-center {
-            animation: characterShakeThreeCenter .6s ease-in-out
-        }
-
-        .character-sprite.dynamic.character-shake.pos-three-right {
-            animation: characterShakeThreeRight .6s ease-in-out
-        }
-
-        @keyframes characterShakeLeft {
-            0%,100% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-
-            10%,30%,50%,70%,90% {
-                transform: translateX(-50%) translateY(-30%) translateX(-5px)
-            }
-
-            20%,40%,60%,80% {
-                transform: translateX(-50%) translateY(-30%) translateX(5px)
-            }
-        }
-
-        @keyframes characterShakeCenter {
-            0%,100% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-
-            10%,30%,50%,70%,90% {
-                transform: translateX(-50%) translateY(-30%) translateX(-5px)
-            }
-
-            20%,40%,60%,80% {
-                transform: translateX(-50%) translateY(-30%) translateX(5px)
-            }
-        }
-
-        @keyframes characterShakeRight {
-            0%,100% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-
-            10%,30%,50%,70%,90% {
-                transform: translateX(-50%) translateY(-30%) translateX(-5px)
-            }
-
-            20%,40%,60%,80% {
-                transform: translateX(-50%) translateY(-30%) translateX(5px)
-            }
-        }
-
-        @keyframes characterShakeThreeLeft {
-            0%,100% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-
-            10%,30%,50%,70%,90% {
-                transform: translateX(-50%) translateY(-30%) translateX(-5px)
-            }
-
-            20%,40%,60%,80% {
-                transform: translateX(-50%) translateY(-30%) translateX(5px)
-            }
-        }
-
-        @keyframes characterShakeThreeCenter {
-            0%,100% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-
-            10%,30%,50%,70%,90% {
-                transform: translateX(-50%) translateY(-30%) translateX(-5px)
-            }
-
-            20%,40%,60%,80% {
-                transform: translateX(-50%) translateY(-30%) translateX(5px)
-            }
-        }
-
-        @keyframes characterShakeThreeRight {
-            0%,100% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-
-            10%,30%,50%,70%,90% {
-                transform: translateX(-50%) translateY(-30%) translateX(-5px)
-            }
-
-            20%,40%,60%,80% {
-                transform: translateX(-50%) translateY(-30%) translateX(5px)
-            }
-        }
-
-        .character-sprite.dynamic.character-jump-up.pos-left,.character-sprite.dynamic.character-jump-up.pos-center,.character-sprite.dynamic.character-jump-up.pos-right,.character-sprite.dynamic.character-jump-up.pos-three-left,.character-sprite.dynamic.character-jump-up.pos-three-center,.character-sprite.dynamic.character-jump-up.pos-three-right {
-            animation: characterJumpUp .4s ease-out
-        }
-
-        @keyframes characterJumpUp {
-            0% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-
-            50% {
-                transform: translateX(-50%) translateY(-30%) translateY(-25px)
-            }
-
-            100% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-        }
-
-        .character-sprite.dynamic.character-jump-down.pos-left,.character-sprite.dynamic.character-jump-down.pos-center,.character-sprite.dynamic.character-jump-down.pos-right,.character-sprite.dynamic.character-jump-down.pos-three-left,.character-sprite.dynamic.character-jump-down.pos-three-center,.character-sprite.dynamic.character-jump-down.pos-three-right {
-            animation: characterJumpDown .4s ease-out
-        }
-
-        @keyframes characterJumpDown {
-            0% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-
-            50% {
-                transform: translateX(-50%) translateY(-30%) translateY(15px)
-            }
-
-            100% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-        }
-
-        .character-sprite.dynamic.character-tilt.pos-left,.character-sprite.dynamic.character-tilt.pos-center,.character-sprite.dynamic.character-tilt.pos-right,.character-sprite.dynamic.character-tilt.pos-three-left,.character-sprite.dynamic.character-tilt.pos-three-center,.character-sprite.dynamic.character-tilt.pos-three-right {
-            animation: characterTilt .8s ease-in-out
-        }
-
-        @keyframes characterTilt {
-            0% {
-                transform: translateX(-50%) translateY(-30%) rotate(0deg)
-            }
-
-            25% {
-                transform: translateX(-50%) translateY(-30%) rotate(-4deg)
-            }
-
-            75% {
-                transform: translateX(-50%) translateY(-30%) rotate(4deg)
-            }
-
-            100% {
-                transform: translateX(-50%) translateY(-30%) rotate(0deg)
-            }
-        }
-
-        .character-sprite.dynamic.character-shake,.character-sprite.dynamic.character-jump-up,.character-sprite.dynamic.character-jump-down,.character-sprite.dynamic.character-tilt {
-            pointer-events: none;
-            z-index: inherit
-        }
-
-        .character-sprite.dynamic.breathing-natural.pos-left,.character-sprite.dynamic.breathing-natural.pos-center,.character-sprite.dynamic.breathing-natural.pos-right,.character-sprite.dynamic.breathing-natural.pos-three-left,.character-sprite.dynamic.breathing-natural.pos-three-center,.character-sprite.dynamic.breathing-natural.pos-three-right {
-            animation: naturalBreathing 4.2s cubic-bezier(0.4,0,0.6,1) infinite
-        }
-
-        .character-sprite.dynamic.breathing-sway.pos-left,.character-sprite.dynamic.breathing-sway.pos-center,.character-sprite.dynamic.breathing-sway.pos-right,.character-sprite.dynamic.breathing-sway.pos-three-left,.character-sprite.dynamic.breathing-sway.pos-three-center,.character-sprite.dynamic.breathing-sway.pos-three-right {
-            animation: gentleSway 6.8s cubic-bezier(0.25,0.46,0.45,0.94) infinite
-        }
-
-        .character-sprite.dynamic.breathing-pulse.pos-left,.character-sprite.dynamic.breathing-pulse.pos-center,.character-sprite.dynamic.breathing-pulse.pos-right,.character-sprite.dynamic.breathing-pulse.pos-three-left,.character-sprite.dynamic.breathing-pulse.pos-three-center,.character-sprite.dynamic.breathing-pulse.pos-three-right {
-            animation: vitalPulse 3.8s ease-in-out infinite
-        }
-
-        .character-sprite.dynamic.breathing-natural.pos-left,.character-sprite.dynamic.breathing-natural.pos-center,.character-sprite.dynamic.breathing-natural.pos-right,.character-sprite.dynamic.breathing-natural.pos-three-left,.character-sprite.dynamic.breathing-natural.pos-three-center,.character-sprite.dynamic.breathing-natural.pos-three-right {
-            animation: naturalBreathingRealistic 4s ease-out infinite
-        }
-
-        .character-sprite.dynamic.breathing-rhythmic.pos-left,.character-sprite.dynamic.breathing-rhythmic.pos-center,.character-sprite.dynamic.breathing-rhythmic.pos-right,.character-sprite.dynamic.breathing-rhythmic.pos-three-left,.character-sprite.dynamic.breathing-rhythmic.pos-three-center,.character-sprite.dynamic.breathing-rhythmic.pos-three-right {
-            animation: rhythmicBreathing 2.4s linear infinite
-        }
-
-        @keyframes naturalBreathing {
-            0% {
-                transform: translateX(-50%) translateY(-30%) scale(1)
-            }
-
-            25% {
-                transform: translateX(-50%) translateY(calc(-30% - 1px)) scale(1.002)
-            }
-
-            35% {
-                transform: translateX(-50%) translateY(calc(-30% - 1.2px)) scale(1.003)
-            }
-
-            75% {
-                transform: translateX(-50%) translateY(calc(-30% + 0.8px)) scale(0.999)
-            }
-
-            100% {
-                transform: translateX(-50%) translateY(-30%) scale(1)
-            }
-        }
-
-        @keyframes gentleSway {
-            0% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-
-            25% {
-                transform: translateX(calc(-50% + 0.8px)) translateY(calc(-30% - 0.3px))
-            }
-
-            50% {
-                transform: translateX(calc(-50% + 0.2px)) translateY(calc(-30% + 0.5px))
-            }
-
-            75% {
-                transform: translateX(calc(-50% - 0.6px)) translateY(calc(-30% - 0.2px))
-            }
-
-            100% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-        }
-
-        @keyframes vitalPulse {
-            0%,100% {
-                transform: translateX(-50%) translateY(-30%) scale(1)
-            }
-
-            20% {
-                transform: translateX(-50%) translateY(-30%) scale(1.001)
-            }
-
-            50% {
-                transform: translateX(-50%) translateY(-30%) scale(1.004)
-            }
-
-            80% {
-                transform: translateX(-50%) translateY(-30%) scale(1.001)
-            }
-        }
-
-        @keyframes naturalBreathingRealistic {
-            0% {
-                transform: translateX(-50%) translateY(-30%) scale(1)
-            }
-
-            15% {
-                transform: translateX(-50%) translateY(calc(-30% - 0.3px)) scale(1.0008)
-            }
-
-            33% {
-                transform: translateX(-50%) translateY(calc(-30% - 0.6px)) scale(1.0015)
-            }
-
-            40% {
-                transform: translateX(-50%) translateY(calc(-30% - 0.6px)) scale(1.0015)
-            }
-
-            70% {
-                transform: translateX(-50%) translateY(calc(-30% - 0.2px)) scale(1.0005)
-            }
-
-            100% {
-                transform: translateX(-50%) translateY(-30%) scale(1)
-            }
-        }
-
-        @keyframes rhythmicBreathing {
-            0%,100% {
-                transform: translateX(-50%) translateY(-30%) scale(1)
-            }
-
-            50% {
-                transform: translateX(-50%) translateY(calc(-30% + 1px)) scale(1.002)
-            }
-        }
-
-        .character-sprite.dynamic[class*=breathing-] {
-            pointer-events: auto;
-            z-index: inherit;
-            will-change: transform;
-            backface-visibility: hidden;
-            transform-style: preserve-3d
-        }
-
-        @media (prefers-reduced-motion:reduce) {
-            .character-sprite.dynamic[class*=breathing-] {
-                animation-duration: 8s !important;
-                animation-timing-function: linear !important
-            }
-
-            @keyframes naturalBreathingRealistic {
-                0%,100% {
-                    transform: translateX(-50%) translateY(-30%) scale(1)
-                }
-
-                33% {
-                    transform: translateX(-50%) translateY(calc(-30% - 0.15px)) scale(1.0003)
-                }
-
-                40% {
-                    transform: translateX(-50%) translateY(calc(-30% - 0.15px)) scale(1.0003)
-                }
-            }
         }
 
         .character-info-popover {
@@ -5451,8 +5454,8 @@
                 padding-left: 0
             }
         }
+        /* === UI界面部分结束 === */
     </style>
-
 <body data-theme="dark">
     <div id="app-container">
         <main id="content-area">
@@ -5483,21 +5486,15 @@
                             <div class="game-info">
                                 <span class="game-date">
                                     <i class="fas fa-calendar-alt"></i>
-                                    <span id="current-date"></span>
+                                    <span id="current-date">2025年10月30日</span>
                                 </span>
                                 <span class="game-time-period">
                                     <i class="fas fa-clock"></i>
-                                    <span id="current-time-period"></span>
+                                    <span id="current-time-period">22:12</span>
                                 </span>
                                 <span class="game-location">
                                     <i class="fas fa-map-marker-alt"></i>
-                                    <span id="current-location"></span>
-                                </span>
-                            </div>
-                            <div class="money-display">
-                                <span class="money-item" title="通用货币：里拉">
-                                    <i class="fas fa-coins"></i>
-                                    <span id="player-money"></span>
+                                    <span id="current-location">街道</span>
                                 </span>
                             </div>
                         </div>
@@ -6299,9 +6296,16 @@
                         <span id="report-date">2024年1月1日</span>
                     </div>
                 </div>
-                <div class="report-editor">
-                    <textarea class="report-textarea" id="report-textarea" placeholder="在这里记录你的日报或周报内容..."></textarea>
-                </div>
+                <div class="report-content">
+ <div class="report-section">
+                <div class="report-text">这里填写日报或周报的文字内容1。</div>
+                <img class="report-image" src="https://via.placeholder.com/600x300" alt="报告图片1">
+            </div>
+            <div class="report-section">
+                <div class="report-text">这里填写日报或周报的文字内容2。</div>
+                <img class="report-image" src="https://via.placeholder.com/600x300" alt="报告图片2">
+            </div>
+        </div>
                 <div class="report-stats">
                     <div class="stat-card">
                         <div class="stat-icon">
