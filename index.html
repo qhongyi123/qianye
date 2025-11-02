@@ -31,10 +31,12 @@
                 loadSettings() {
                     const e = localStorage.getItem('textAnimationSpeed')
                       , t = localStorage.getItem('textAnimationType')
-                      , a = localStorage.getItem('dialogueFontSize');
+                      , a = localStorage.getItem('dialogueFontSize')
+                      , n = localStorage.getItem('iswp_font_family');
                     e && (this.animationSpeed = parseInt(e, 10)),
                     t && ['typewriter', 'fade', 'instant'].includes(t) && (this.animationType = t),
-                    a && this.applyFontSize(parseInt(a, 10))
+                    a && this.applyFontSize(parseInt(a, 10)),
+                    n && this.applyFontFamilyToDialogue(n)
                 }
                 saveSettings() {
                     localStorage.setItem('textAnimationSpeed', this.animationSpeed.toString()),
@@ -52,9 +54,18 @@
                     localStorage.setItem('dialogueFontSize', e.toString()),
                     this.applyFontSize(e)
                 }
+                setFontFamily(e) {
+                    this.applyFontFamilyToDialogue(e)
+                }
                 applyFontSize(e) {
                     const t = Math.max(12, Math.min(32, e));
                     $('#dialogue-content').css('font-size', `${t}px`)
+                }
+                applyFontFamilyToDialogue(e) {
+                    const t = $('#dialogue-content');
+                    t.removeClass('modern elegant script cute pixel bold'),
+                    t.addClass(e),
+                    localStorage.setItem('iswp_font_family', e)
                 }
                 async displayText(e, t, a) {
                     this.stopCurrentAnimation(),
@@ -154,11 +165,13 @@
                     return this.isAnimating
                 }
                 getSettings() {
-                    const e = parseInt(localStorage.getItem('dialogueFontSize') || '16', 10);
+                    const e = parseInt(localStorage.getItem('dialogueFontSize') || '16', 10)
+                      , t = localStorage.getItem('iswp_font_family') || 'modern';
                     return {
                         speed: this.animationSpeed,
                         type: this.animationType,
-                        fontSize: e
+                        fontSize: e,
+                        fontFamily: t
                     }
                 }
             }
@@ -1155,6 +1168,12 @@
                         a && a.setFontSize(t)
                     }
                     ),
+                    $('#font-family-selector').on('change.settings', e => {
+                        const t = $(e.currentTarget).val();
+                        this.applyFontFamily(t),
+                        console.log(`📝 字体切换为: ${t}`)
+                    }
+                    ),
                     $('#bgm-toggle').on('change.settings', async e => {
                         const t = $(e.currentTarget).is(':checked');
                         await this.setBGMEnabled(t),
@@ -1237,6 +1256,19 @@
                     }
                     e ? window.enableBreathing?.() : window.disableBreathing?.()
                 }
+                applyFontFamily(e) {
+                    const t = $('#font-preview')
+                      , a = $('#dialogue-content');
+                    t.removeClass('modern elegant script cute pixel bold'),
+                    a.removeClass('modern elegant script cute pixel bold'),
+                    t.addClass(e),
+                    a.addClass(e),
+                    try {
+                        localStorage.setItem('iswp_font_family', e)
+                    } catch (e) {
+                        console.warn('无法保存字体设置:', e)
+                    }
+                }
                 initBreathingToggleState() {
                     const e = this.getBreathingEffectSetting();
                     $('#breathing-toggle').prop('checked', e)
@@ -1252,7 +1284,9 @@
                     $('#text-speed-slider').val(n),
                     $('#text-speed-value').text(`${a}ms`),
                     $('#font-size-slider').val(t.fontSize),
-                    $('#font-size-value').text(`${t.fontSize}px`)
+                    $('#font-size-value').text(`${t.fontSize}px`),
+                    $('#font-family-selector').val(t.fontFamily),
+                    this.applyFontFamily(t.fontFamily)
                 }
                 getBreathingEffectSetting() {
                     try {
@@ -1278,11 +1312,14 @@
                         $('#text-speed-slider').val(t),
                         $('#text-speed-value').text(`${e}ms`),
                         $('#font-size-slider').val('16'),
-                        $('#font-size-value').text('16px');
+                        $('#font-size-value').text('16px'),
+                        $('#font-family-selector').val('modern'),
+                        this.applyFontFamily('modern');
                         const a = this.llmrpParser?.getTextAnimationManager();
                         a && (a.setAnimationType('typewriter'),
                         a.setAnimationSpeed(e),
-                        a.setFontSize(16)),
+                        a.setFontSize(16),
+                        a.setFontFamily('modern')),
                         $('#bgm-toggle').prop('checked', !0),
                         this.setBGMEnabled(!0),
                         $('#fullscreen-toggle').prop('checked', !1),
@@ -1433,7 +1470,7 @@
                     $('#prev-btn, #next-btn').off('.dialogue'),
                     $('.dialogue-box').off('.dialogue'),
                     $('#settings-btn, .theme-btn').off('.settings'),
-                    $('#text-animation-type, #text-speed-slider, #font-size-slider').off('.settings'),
+                    $('#text-animation-type, #text-speed-slider, #font-size-slider, #font-family-selector').off('.settings'),
                     $('#bgm-toggle, #fullscreen-toggle').off('.settings'),
                     $(document).off('.settings'),
                     console.log('事件处理器已销毁')
@@ -3169,6 +3206,42 @@
             outline: none;
             box-shadow: 0 0 0 3px rgba(var(--accent-color-rgb),0.3)
         }
+
+    /* 添加字体导入 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500&family=Kaiti+SC:wght@400;700&family=Dancing+Script:wght@400;700&family=ZCOOL+KuaiLe&family=Press+Start+2P&family=Heiti+SC:wght@400;700&display=swap');
+
+/* 在文字设置部分添加字体选择器 */
+.text-settings-section .setting-item .font-selector-container {
+    width: 100%;
+}
+
+.text-settings-section .setting-item .modern-select.font-selector {
+    width: 100%;
+    margin-top: 8px;
+}
+
+/* 字体预览样式 */
+.font-preview {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: var(--ui-bg);
+    border-radius: 6px;
+    font-size: 14px;
+    border: 1px solid var(--ui-border-color);
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+/* 不同字体的预览样式 */
+.font-preview.modern { font-family: 'Noto Sans SC', sans-serif; }
+.font-preview.elegant { font-family: 'Kaiti SC', serif; }
+.font-preview.script { font-family: 'Dancing Script', cursive; }
+.font-preview.cute { font-family: 'ZCOOL KuaiLe', cursive; }
+.font-preview.pixel { font-family: 'Press Start 2P', cursive; }
+.font-preview.bold { font-family: 'Heiti SC', sans-serif; }
+    
 </style>
 <body data-theme="dark">
     <div id="app-container">
@@ -3411,6 +3484,30 @@
                     </div>
                 </div>
             </div>
+            <div class="setting-item">
+    <div class="setting-info">
+        <div class="setting-name">
+            <i class="fas fa-font"></i>
+            字体选择
+        </div>
+        <div class="setting-description">选择对话文字的显示字体</div>
+    </div>
+    <div class="setting-control">
+        <div class="font-selector-container">
+            <select id="font-family-selector" class="modern-select font-selector">
+                <option value="modern">现代简约 (默认)</option>
+                <option value="elegant">典雅宋体</option>
+                <option value="script">灵动飘逸</option>
+                <option value="cute">活泼可爱</option>
+                <option value="pixel">像素复古</option>
+                <option value="bold">粗犷黑体</option>
+            </select>
+            <div id="font-preview" class="font-preview modern">
+                这是一段字体预览文字，看看效果如何？
+            </div>
+        </div>
+    </div>
+</div>
             <div class="settings-section default-settings-section">
                 <div class="settings-options">
                     <div class="setting-item reset-setting-item">
