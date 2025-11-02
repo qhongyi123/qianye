@@ -40,7 +40,7 @@
                 }
                 saveSettings() {
                     localStorage.setItem('textAnimationSpeed', this.animationSpeed.toString()),
-                    localStorage.setItem('textAnimationType', this.animationType)
+                    localStorage.setItem('textAnimationType', this.animationType),
                     localStorage.setItem('selectedFont', this.getCurrentFont()) // 新增：保存字体
                 }
                 applyFontFamily(e) {
@@ -58,15 +58,6 @@
                 getCurrentFont() {
                     return localStorage.getItem('selectedFont') || "'Noto Sans SC', sans-serif";
                 }   
-                getSettings() {
-                    const e = parseInt(localStorage.getItem('dialogueFontSize') || '16', 10);
-                    return {
-                        speed: this.animationSpeed,
-                        type: this.animationType,
-                        fontSize: e,
-                        fontFamily: this.getCurrentFont() // 新增：返回字体设置
-                    }
-                }
                 setAnimationSpeed(e) {
                     this.animationSpeed = Math.max(5, Math.min(500, e)),
                     localStorage.setItem('textAnimationSpeed', this.animationSpeed.toString())
@@ -186,6 +177,7 @@
                         speed: this.animationSpeed,
                         type: this.animationType,
                         fontSize: e
+                        fontFamily: this.getCurrentFont() // 新增：返回字体设置
                     }
                 }
             }
@@ -1144,7 +1136,7 @@
                     $('#fullscreen-toggle').off('change.settings'),
                     $('#reset-settings-btn').off('click.settings'),
                     $(document).off('click.settings'),
-                    $('#font-selector').off('change.settings').on('change.settings'),    
+                    $('#font-selector').off('change.settings'),
 
                     $('.theme-btn').on('click.settings', e => {
                         const t = $(e.currentTarget)
@@ -1314,17 +1306,13 @@
                         $('#text-speed-slider').val(t),
                         $('#text-speed-value').text(`${e}ms`),
                         $('#font-size-slider').val('16'),
-                        $('#font-size-value').text('16px');
-                        const a = this.llmrpParser?.getTextAnimationManager();
-                        a && (a.setAnimationType('typewriter'),
-                        a.setAnimationSpeed(e),
-                        a.setFontSize(16)),
+                        $('#font-size-value').text('16px'),
                         $('#font-selector').val("'Noto Sans SC', sans-serif");
                         const a = this.llmrpParser?.getTextAnimationManager();
                         a && (a.setAnimationType('typewriter'),
                         a.setAnimationSpeed(50),
                         a.setFontSize(16),
-                        a.setFontFamily("'Noto Sans SC', sans-serif")), // 新增：重置字体
+                        a.setFontFamily("'Noto Sans SC', sans-serif")), // 重置字体
                         $('#bgm-toggle').prop('checked', !0),
                         this.setBGMEnabled(!0),
                         $('#fullscreen-toggle').prop('checked', !1),
