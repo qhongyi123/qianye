@@ -186,7 +186,7 @@
                     });
                     const a = this.normalizeCharacterName(e);
                     if (this.animatingCharacters.has(a))
-                        return void console.log('⏭️ 角色正在动画中，跳过:', e);
+                        return void console.log(⏭️ 角色正在动画中，跳过:', e);
                     await this.preloadImage(t);
                     const n = this.stage.findIndex(e => this.normalizeCharacterName(e.name) === a);
                     if (n >= 0) {
@@ -1066,22 +1066,15 @@
                     console.log('🫁 初始化呼吸效果: ' + (e ? '开启' : '关闭'))
                 }
                 setupNavigationEvents() {
-                    // 只保留设置按钮的导航
-                    $('#settings-btn').off('click.settings').on('click.settings', e => {
-                        e.stopPropagation();
-                        const t = $('#settings-menu')
-                          , a = $('#app-container');
-                        t.toggleClass('active'),
-                        t.hasClass('active') ? (a.addClass('modal-active'),
-                        this.initBreathingToggleState(),
-                        this.initTextSettingsState(),
-                        this.initBGMSettingsState(),
-                        this.initKeyboardShortcutsState(),
-                        this.initFullscreenState(),
-                        console.log('🎨 激活背景模糊效果')) : (a.removeClass('modal-active'),
-                        console.log('🎨 取消背景模糊效果'))
+                    $('.nav-btn').off('click.navigation'),
+                    $('.nav-btn').on('click.navigation', e => {
+                        const t = $(e.currentTarget)
+                          , a = t.data('view');
+                        a && ($('.nav-btn').removeClass('active'),
+                        t.addClass('active'),
+                        this.uiController.switchView(a))
                     }
-                    );
+                    )
                 }
                 setupDialogueEvents() {
                     console.log('🔧 设置对话事件...');
@@ -1108,7 +1101,13 @@
                     )
                 }
                 setupSettingsEvents() {
-                    // 只保留设置相关的事件
+                    $('#map-btn').off('click.settings'),
+                    $('#report-btn').off('click.settings'),
+                    $('#contacts-btn').off('click.settings'),
+                    $('#schedule-btn').off('click.settings'),
+                    $('#quest-btn').off('click.settings'),
+                    $('#character-info-btn').off('click.settings'),
+                    $('#settings-btn').off('click.settings'),
                     $('.theme-btn').off('click.settings'),
                     $('#breathing-toggle').off('change.settings'),
                     $('#text-animation-type, #text-speed-slider, #font-size-slider').off('change.settings input.settings'),
@@ -1117,7 +1116,169 @@
                     $('#fullscreen-toggle').off('change.settings'),
                     $('#reset-settings-btn').off('click.settings'),
                     $(document).off('click.settings'),
-
+                    $('#map-btn').on('click.settings', e => {
+                        e.stopPropagation();
+                        const t = $('#map-menu')
+                          , a = $('#app-container')
+                          , n = $('#settings-menu')
+                          , s = $('#character-info-menu')
+                          , i = $('#quest-menu')
+                          , o = $('#schedule-menu')
+                          , r = $('#contacts-menu')
+                          , m = $('#report-menu');
+                        n.removeClass('active'),
+                        s.removeClass('active'),
+                        i.removeClass('active'),
+                        o.removeClass('active'),
+                        r.removeClass('active'),
+                        m.removeClass('active'),
+                        t.toggleClass('active'),
+                        t.hasClass('active') ? (a.addClass('modal-active'),
+                        this.initMapPanel(),
+                        console.log('🗺️ 打开地图面板')) : (a.removeClass('modal-active'),
+                        console.log('🗺️ 关闭地图面板'))
+                    }
+                    ),
+                    $('#report-btn').on('click.settings', e => {
+                        e.stopPropagation();
+                        const t = $('#report-menu')
+                          , a = $('#app-container')
+                          , n = $('#settings-menu')
+                          , s = $('#character-info-menu')
+                          , i = $('#quest-menu')
+                          , o = $('#schedule-menu')
+                          , r = $('#contacts-menu')
+                          , m = $('#map-menu');
+                        n.removeClass('active'),
+                        s.removeClass('active'),
+                        i.removeClass('active'),
+                        o.removeClass('active'),
+                        r.removeClass('active'),
+                        m.removeClass('active'),
+                        t.toggleClass('active'),
+                        t.hasClass('active') ? (a.addClass('modal-active'),
+                        this.initReportPanel(),
+                        console.log('📊 打开周报/日报面板')) : (a.removeClass('modal-active'),
+                        console.log('📊 关闭周报/日报面板'))
+                    }
+                    ),
+                    $('#contacts-btn').on('click.settings', e => {
+                        e.stopPropagation();
+                        const t = $('#contacts-menu')
+                          , a = $('#app-container')
+                          , n = $('#settings-menu')
+                          , s = $('#character-info-menu')
+                          , i = $('#quest-menu')
+                          , o = $('#schedule-menu')
+                          , r = $('#report-menu')
+                          , m = $('#map-menu');
+                        n.removeClass('active'),
+                        s.removeClass('active'),
+                        i.removeClass('active'),
+                        o.removeClass('active'),
+                        r.removeClass('active'),
+                        m.removeClass('active'),
+                        t.toggleClass('active'),
+                        t.hasClass('active') ? (a.addClass('modal-active'),
+                        this.initContactsPanel(),
+                        console.log('👥 打开联系人面板')) : (a.removeClass('modal-active'),
+                        console.log('👥 关闭联系人面板'))
+                    }
+                    ),
+                    $('#schedule-btn').on('click.settings', e => {
+                        e.stopPropagation();
+                        const t = $('#schedule-menu')
+                          , a = $('#app-container')
+                          , n = $('#settings-menu')
+                          , s = $('#character-info-menu')
+                          , i = $('#quest-menu')
+                          , o = $('#contacts-menu')
+                          , r = $('#report-menu')
+                          , m = $('#map-menu');
+                        n.removeClass('active'),
+                        s.removeClass('active'),
+                        i.removeClass('active'),
+                        o.removeClass('active'),
+                        r.removeClass('active'),
+                        m.removeClass('active'),
+                        t.toggleClass('active'),
+                        t.hasClass('active') ? (a.addClass('modal-active'),
+                        console.log('📅 打开日程面板')) : (a.removeClass('modal-active'),
+                        console.log('📅 关闭日程面板'))
+                    }
+                    ),
+                    $('#quest-btn').on('click.settings', e => {
+                        e.stopPropagation();
+                        const t = $('#quest-menu')
+                          , a = $('#app-container')
+                          , n = $('#settings-menu')
+                          , s = $('#character-info-menu')
+                          , i = $('#schedule-menu')
+                          , o = $('#contacts-menu')
+                          , r = $('#report-menu')
+                          , m = $('#map-menu');
+                        n.removeClass('active'),
+                        s.removeClass('active'),
+                        i.removeClass('active'),
+                        o.removeClass('active'),
+                        r.removeClass('active'),
+                        m.removeClass('active'),
+                        t.toggleClass('active'),
+                        t.hasClass('active') ? (a.addClass('modal-active'),
+                        console.log('📋 打开任务面板')) : (a.removeClass('modal-active'),
+                        console.log('📋 关闭任务面板'))
+                    }
+                    ),
+                    $('#character-info-btn').on('click.settings', e => {
+                        e.stopPropagation();
+                        const t = $('#character-info-menu')
+                          , a = $('#app-container')
+                          , n = $('#settings-menu')
+                          , s = $('#quest-menu')
+                          , i = $('#schedule-menu')
+                          , o = $('#contacts-menu')
+                          , r = $('#report-menu')
+                          , m = $('#map-menu');
+                        n.removeClass('active'),
+                        s.removeClass('active'),
+                        i.removeClass('active'),
+                        o.removeClass('active'),
+                        r.removeClass('active'),
+                        m.removeClass('active'),
+                        t.toggleClass('active'),
+                        t.hasClass('active') ? (a.addClass('modal-active'),
+                        this.initCharacterInfo(),
+                        console.log('👤 打开人物信息面板')) : (a.removeClass('modal-active'),
+                        console.log('👤 关闭人物信息面板'))
+                    }
+                    ),
+                    $('#settings-btn').on('click.settings', e => {
+                        e.stopPropagation();
+                        const t = $('#settings-menu')
+                          , a = $('#app-container')
+                          , n = $('#character-info-menu')
+                          , s = $('#quest-menu')
+                          , i = $('#schedule-menu')
+                          , o = $('#contacts-menu')
+                          , r = $('#report-menu')
+                          , m = $('#map-menu');
+                        n.removeClass('active'),
+                        s.removeClass('active'),
+                        i.removeClass('active'),
+                        o.removeClass('active'),
+                        r.removeClass('active'),
+                        m.removeClass('active'),
+                        t.toggleClass('active'),
+                        t.hasClass('active') ? (a.addClass('modal-active'),
+                        this.initBreathingToggleState(),
+                        this.initTextSettingsState(),
+                        this.initBGMSettingsState(),
+                        this.initKeyboardShortcutsState(),
+                        this.initFullscreenState(),
+                        console.log('🎨 激活背景模糊效果')) : (a.removeClass('modal-active'),
+                        console.log('🎨 取消背景模糊效果'))
+                    }
+                    ),
                     $('.theme-btn').on('click.settings', e => {
                         const t = $(e.currentTarget)
                           , a = t.data('theme');
@@ -1180,15 +1341,187 @@
                     }
                     ),
                     $(document).on('click.settings', e => {
-                        if (!$(e.target).closest('#settings-btn, #settings-menu').length) {
+                        if (!$(e.target).closest('#settings-btn, #settings-menu, #character-info-btn, #character-info-menu, #quest-btn, #quest-menu, #schedule-btn, #schedule-menu, #contacts-btn, #contacts-menu, #report-btn, #report-menu, #map-btn, #map-menu').length) {
                             const e = $('#settings-menu')
+                              , t = $('#character-info-menu')
+                              , n = $('#quest-menu')
+                              , s = $('#schedule-menu')
+                              , i = $('#contacts-menu')
+                              , r = $('#report-menu')
+                              , m = $('#map-menu')
                               , a = $('#app-container');
                             e.hasClass('active') && (e.removeClass('active'),
                             a.removeClass('modal-active'),
-                            console.log('🎨 关闭设置菜单，取消背景模糊'))
+                            console.log('🎨 关闭设置菜单，取消背景模糊')),
+                            t.hasClass('active') && (t.removeClass('active'),
+                            a.removeClass('modal-active'),
+                            console.log('👤 关闭人物信息面板，取消背景模糊')),
+                            n.hasClass('active') && (n.removeClass('active'),
+                            a.removeClass('modal-active'),
+                            console.log('📋 关闭任务面板，取消背景模糊')),
+                            s.hasClass('active') && (s.removeClass('active'),
+                            a.removeClass('modal-active'),
+                            console.log('📅 关闭日程面板，取消背景模糊')),
+                            i.hasClass('active') && (i.removeClass('active'),
+                            a.removeClass('modal-active'),
+                            console.log('👥 关闭联系人面板，取消背景模糊')),
+                            r.hasClass('active') && (r.removeClass('active'),
+                            a.removeClass('modal-active'),
+                            console.log('📊 关闭周报/日报面板，取消背景模糊')),
+                            m.hasClass('active') && (m.removeClass('active'),
+                            a.removeClass('modal-active'),
+                            console.log('🗺️ 关闭地图面板，取消背景模糊'))
                         }
                     }
                     )
+                }
+                initContactsPanel() {
+                    $('.contact-card').off('click.contacts').on('click.contacts', function(e) {
+                        e.stopPropagation();
+                        $('.contact-card').removeClass('active');
+                        $(this).addClass('active');
+                        const t = $(this).find('.contact-name').text()
+                          , a = $(this).find('.contact-avatar img').attr('src');
+                        $('#chat-contact-name').text(t);
+                        $('#chat-avatar img').attr('src', a);
+                        console.log('👤 切换联系人:', t)
+                    }
+                    );
+                    $('#chat-send-btn').off('click.chat').on('click.chat', () => {
+                        this.sendChatMessage()
+                    }
+                    );
+                    $('#chat-input').off('keypress.chat').on('keypress.chat', e => {
+                        13 === e.which && (e.preventDefault(),
+                        this.sendChatMessage())
+                    }
+                    )
+                }
+                sendChatMessage() {
+                    const e = $('#chat-input')
+                      , t = e.val().trim();
+                    if (!t)
+                        return;
+                    const a = new Date
+                      , n = String(a.getHours()).padStart(2, '0') + ':' + String(a.getMinutes()).padStart(2, '0')
+                      , s = `\n        <div class="message sent">\n            <div class="message-content">\n                <div class="message-text">${$('<div>').text(t).html()}</div>\n                <div class="message-time">${n}</div>\n            </div>\n        </div>\n    `
+                      , i = $('#chat-messages');
+                    i.append(s);
+                    const o = i.find('.message');
+                    o.length > 7 && o.first().remove();
+                    i.scrollTop(i[0].scrollHeight);
+                    e.val('');
+                    console.log('💬 发送消息:', t)
+                }
+                initCharacterInfo() {
+                    this.updateCircularProgress('power', 65);
+                    this.updateCircularProgress('desire', 80);
+                    this.updateBarProgress('energy', 45);
+                }
+                updateCircularProgress(e, t) {
+                    const a = Math.max(0, Math.min(100, t))
+                      , n = 213.628
+                      , s = n - n * a / 100;
+                    $(`[data-stat="${e}"] .progress-ring-circle`).css('stroke-dashoffset', s),
+                    $(`#${e}-value`).text(`${a}%`)
+                }
+                updateBarProgress(e, t) {
+                    const a = Math.max(0, Math.min(100, t));
+                    $(`#${e}-bar`).css('width', `${a}%`),
+                    $(`#${e}-value`).text(`${a}%`)
+                }
+                initReportPanel() {
+                    this.updateReportDate();
+                    $('.report-type-btn').off('click.report').on('click.report', e => {
+                        e.stopPropagation();
+                        const t = $(e.currentTarget);
+                        const a = t.data('type');
+                        $('.report-type-btn').removeClass('active');
+                        t.addClass('active');
+                        this.updateReportDate();
+                        console.log(`📊 切换报告类型: ${a}`)
+                    });
+                }
+                updateReportDate() {
+                    const e = new Date();
+                    const t = e.getFullYear();
+                    const a = e.getMonth() + 1;
+                    const n = e.getDate();
+                    const s = $('.report-type-btn.active').data('type');
+                    let dateStr;
+                    if (s === 'daily') {
+                        dateStr = `${t}年${a}月${n}日`;
+                    } else {
+                        const weekStart = new Date(e);
+                        weekStart.setDate(e.getDate() - e.getDay() + 1);
+                        const weekEnd = new Date(weekStart);
+                        weekEnd.setDate(weekStart.getDate() + 6);
+                        dateStr = `${t}年${a}月 第${Math.ceil(n / 7)}周`;
+                    }
+                    $('#report-date').text(dateStr);
+                }
+                initMapPanel() {
+                    this.currentMapIndex = 0;
+                    this.updateMapDisplay();
+                    $('#map-prev-btn').off('click.map').on('click.map', e => {
+                        e.stopPropagation();
+                        this.navigateMap('prev');
+                    });
+                    $('#map-next-btn').off('click.map').on('click.map', e => {
+                        e.stopPropagation();
+                        this.navigateMap('next');
+                    });
+                    $('.indicator-dot').off('click.map').on('click.map', e => {
+                        e.stopPropagation();
+                        const t = $(e.currentTarget).data('slide');
+                        this.currentMapIndex = t;
+                        this.updateMapDisplay();
+                    });
+                    $('.map-marker').off('click.map').on('click.map', e => {
+                        e.stopPropagation();
+                        const t = $(e.currentTarget).data('location');
+                        this.goToLocation(t);
+                    });
+                    console.log('🗺️ 地图面板已初始化');
+                }
+                navigateMap(e) {
+                    const t = $('.map-slide').length;
+                    if (e === 'prev') {
+                        this.currentMapIndex = (this.currentMapIndex - 1 + t) % t;
+                    } else {
+                        this.currentMapIndex = (this.currentMapIndex + 1) % t;
+                    }
+                    this.updateMapDisplay();
+                }
+                updateMapDisplay() {
+                    const e = $('.map-slide');
+                    const t = e.eq(this.currentMapIndex);
+                    const a = t.data('map-name');
+                    e.removeClass('active');
+                    t.addClass('active');
+                    $('#current-map-name').text(a);
+                    $('.indicator-dot').removeClass('active');
+                    $(`.indicator-dot[data-slide="${this.currentMapIndex}"]`).addClass('active');
+                    const n = -this.currentMapIndex * 100;
+                    $('#map-image-wrapper').css('transform', `translateX(${n}%)`);
+                    console.log(`🗺️ 切换到地图: ${a}`);
+                }
+                goToLocation(e) {
+                    const t = $('#choice-text-input');
+                    if (t.length) {
+                        t.val(`前去${e}`);
+                        t.focus();
+                        console.log(`📍 已选择位置: ${e}`);
+                        const a = $('#player-choice-input');
+                        if (a.length && a.css('display') === 'none') {
+                            console.log('💡 提示: 输入框当前处于隐藏状态，文本已填入但可能不可见');
+                        }
+                        $('#map-menu').removeClass('active');
+                        $('#app-container').removeClass('modal-active');
+                        console.log('🗺️ 关闭地图面板');
+                    } else {
+                        console.warn('⚠️ 未找到输入框元素 #choice-text-input');
+                    }
                 }
                 async handleDialogueNavigation(e) {
                     if (console.log(`📖 对话导航: ${e}`),
@@ -1364,6 +1697,9 @@
                 setupKeyboardShortcuts() {
                     this.cleanupKeyboardShortcuts(),
                     $(document).on('keydown.shortcuts', e => {
+                        if ('Escape' === e.key && $('#modal-container').hasClass('active'))
+                            return e.preventDefault(),
+                            void $('#modal-close-btn').trigger('click');
                         if (this.shouldHandleKeyboard())
                             switch (e.key) {
                             case ' ':
@@ -1379,7 +1715,7 @@
                     )
                 }
                 shouldHandleKeyboard() {
-                    return !($('input:focus, textarea:focus').length > 0)
+                    return !($('input:focus, textarea:focus').length > 0) && !($('#modal-container').hasClass('active') && !($('.dialogue-choices').length > 0))
                 }
                 cleanupKeyboardShortcuts() {
                     $(document).off('.shortcuts')
@@ -1407,7 +1743,7 @@
                 setupFullscreenListener() {
                     this.cleanupFullscreenListener(),
                     $('#app-container').on('dblclick.fullscreen', e => {
-                        $(e.target).closest('.dialogue-box').length > 0 || $(e.target).closest('#settings-menu').length > 0 || this.toggleFullscreen()
+                        $(e.target).closest('.dialogue-box').length > 0 || $(e.target).closest('#modal-container').length > 0 || $(e.target).closest('#settings-menu').length > 0 || this.toggleFullscreen()
                     }
                     )
                 }
@@ -1430,11 +1766,19 @@
                 destroy() {
                     this.cleanupKeyboardShortcuts(),
                     this.cleanupFullscreenListener(),
+                    $('.nav-btn').off('.navigation'),
                     $('#prev-btn, #next-btn').off('.dialogue'),
                     $('.dialogue-box').off('.dialogue'),
-                    $('#settings-btn, .theme-btn').off('.settings'),
+                    $('#map-btn, #report-btn, #contacts-btn, #schedule-btn, #quest-btn, #character-info-btn, #settings-btn, .theme-btn').off('.settings'),
                     $('#text-animation-type, #text-speed-slider, #font-size-slider').off('.settings'),
                     $('#bgm-toggle, #fullscreen-toggle').off('.settings'),
+                    $('.contact-card').off('.contacts'),
+                    $('#chat-send-btn').off('.chat'),
+                    $('#chat-input').off('.chat'),
+                    $('.report-type-btn').off('.report'),
+                    $('#map-prev-btn, #map-next-btn').off('.map'),
+                    $('.indicator-dot').off('.map'),
+                    $('.map-marker').off('.map'),
                     $(document).off('.settings'),
                     console.log('事件处理器已销毁')
                 }
@@ -1470,10 +1814,59 @@
                 switchView(e) {
                     console.log('🔄 切换视图到:', e),
                     this.currentView = e;
+                    const t = $('#app-container')
+                      , a = $('#modal-container')
+                      , n = a.find('.view-container')
+                      , s = a.hasClass('active');
+                    if ('novel' === e)
+                        return n.removeClass('active'),
+                        a.removeClass('active'),
+                        t.removeClass('modal-active'),
+                        void console.log('📱 显示主界面，取消背景模糊');
+                    switch (n.removeClass('active'),
+                    $(`#view-${e}`).addClass('active'),
+                    s ? console.log('🎯 保持模态容器开启，仅切换内部视图') : requestAnimationFrame( () => {
+                        a.addClass('active'),
+                        t.addClass('modal-active'),
+                        console.log('🎨 显示模态界面，激活背景模糊')
+                    }
+                    ),
+                    e) {
+                    case 'memoir':
+                        this.renderMemoirView()
+                    }
                 }
                 _currentMemoir = [];
                 setCurrentMemoir(e) {
                     this._currentMemoir = Array.isArray(e) ? e : []
+                }
+                renderMemoirView() {
+                    try {
+                        const e = $('#view-memoir #event-list')
+                          , t = $('#view-memoir #event-details');
+                        e.empty(),
+                        t.empty();
+                        const a = this._currentMemoir || [];
+                        if (!a.length)
+                            return void e.html('<div class="empty-hint">暂无回忆</div>');
+                        const n = [];
+                        n.push('<ul class="memoir-list">');
+                        for (let e = 0; e < a.length; e++) {
+                            const t = a[e]
+                              , s = t && 'object' == typeof t && !Array.isArray(t)
+                              , i = String(s ? t.text ?? '' : t ?? '')
+                              , o = $('<div>').text(i).html().replace(/\n/g, '<br/>')
+                              , r = String(s ? t.speaker ?? '' : '').trim()
+                              , c = r || '旁白'
+                              , l = `<div class="memoir-speaker">${$('<div>').text(c).html()}</div>`;
+                            n.push(`<li class="memoir-item">\n             <div class="memoir-meta">\n               ${l}\n               <div class="memoir-text">${o}</div>\n             </div>\n           </li>`)
+                        }
+                        n.push('</ul>'),
+                        e.html(n.join(''))
+                    } catch (e) {
+                        console.warn('渲染回忆录视图失败:', e),
+                        $('#view-memoir #event-list').html('<div class="empty-hint">无法加载回忆录</div>')
+                    }
                 }
                 updateUI() {
                     this.updateDialogue()
@@ -3365,4 +3758,4 @@
                 </div>
             </div>
         </div>
-</body>
+    </body>
