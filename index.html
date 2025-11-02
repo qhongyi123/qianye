@@ -2555,7 +2555,6 @@
             box-shadow: 0 0 0 3px rgba(var(--accent-color-rgb),0.3)
         }
 
-        /* === 字体设置部分 === */
         /* 在文字设置部分添加字体选择器 */
         .text-settings-section .setting-item .font-selector-container {
             width: 100%;
@@ -2587,14 +2586,6 @@
         .font-preview.cute { font-family: 'ZCOOL KuaiLe', cursive; }
         .font-preview.pixel { font-family: 'Press Start 2P', cursive; }
         .font-preview.bold { font-family: 'Heiti SC', sans-serif; }
-
-        /* 对话内容字体应用 */
-        #dialogue-content.modern { font-family: 'Noto Sans SC', sans-serif; }
-        #dialogue-content.elegant { font-family: 'Kaiti SC', serif; }
-        #dialogue-content.script { font-family: 'Dancing Script', cursive; }
-        #dialogue-content.cute { font-family: 'ZCOOL KuaiLe', cursive; }
-        #dialogue-content.pixel { font-family: 'Press Start 2P', cursive; }
-        #dialogue-content.bold { font-family: 'Heiti SC', sans-serif; }
 </style>
 <body data-theme="dark">
     <div id="app-container">
@@ -2835,32 +2826,33 @@
                             </div>
                         </div>
                     </div>
+                    <!-- 新增字体选择器 -->
+                    <div class="setting-item">
+                        <div class="setting-info">
+                            <div class="setting-name">
+                                <i class="fas fa-font"></i>
+                                字体选择
+                            </div>
+                            <div class="setting-description">选择对话文字的显示字体</div>
+                        </div>
+                        <div class="setting-control">
+                            <div class="font-selector-container">
+                                <select id="font-family-selector" class="modern-select font-selector">
+                                    <option value="modern">现代简约 (默认)</option>
+                                    <option value="elegant">典雅宋体</option>
+                                    <option value="script">灵动飘逸</option>
+                                    <option value="cute">活泼可爱</option>
+                                    <option value="pixel">像素复古</option>
+                                    <option value="bold">粗犷黑体</option>
+                                </select>
+                                <div id="font-preview" class="font-preview modern">
+                                    这是一段字体预览文字，看看效果如何？
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="setting-item">
-    <div class="setting-info">
-        <div class="setting-name">
-            <i class="fas fa-font"></i>
-            字体选择
-        </div>
-        <div class="setting-description">选择对话文字的显示字体</div>
-    </div>
-    <div class="setting-control">
-        <div class="font-selector-container">
-            <select id="font-family-selector" class="modern-select font-selector">
-                <option value="modern">现代简约 (默认)</option>
-                <option value="elegant">典雅宋体</option>
-                <option value="script">灵动飘逸</option>
-                <option value="cute">活泼可爱</option>
-                <option value="pixel">像素复古</option>
-                <option value="bold">粗犷黑体</option>
-            </select>
-            <div id="font-preview" class="font-preview modern">
-                这是一段字体预览文字，看看效果如何？
-            </div>
-        </div>
-    </div>
-</div>
             <div class="settings-section default-settings-section">
                 <div class="settings-options">
                     <div class="setting-item reset-setting-item">
