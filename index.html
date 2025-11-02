@@ -28,17 +28,44 @@
                 constructor() {
                     this.loadSettings()
                 }
-                loadSettings() {
+                loadSettings(){
                     const e = localStorage.getItem('textAnimationSpeed')
                       , t = localStorage.getItem('textAnimationType')
-                      , a = localStorage.getItem('dialogueFontSize');
+                      , a = localStorage.getItem('dialogueFontSize')
+                      , n = localStorage.getItem('selectedFont'); // 新增：读取字体设置
                     e && (this.animationSpeed = parseInt(e, 10)),
                     t && ['typewriter', 'fade', 'instant'].includes(t) && (this.animationType = t),
-                    a && this.applyFontSize(parseInt(a, 10))
+                    a && this.applyFontSize(parseInt(a, 10)),
+                    n && this.applyFontFamily(n) // 新增：应用字体
                 }
                 saveSettings() {
                     localStorage.setItem('textAnimationSpeed', this.animationSpeed.toString()),
                     localStorage.setItem('textAnimationType', this.animationType)
+                    localStorage.setItem('selectedFont', this.getCurrentFont()) // 新增：保存字体
+                }
+                applyFontFamily(e) {
+                    $('body').css('font-family', e);
+                    // 同时应用到对话框内容，确保立即生效
+                    $('#dialogue-content').css('font-family', e);
+                }
+    
+                // 新增：设置字体
+                setFontFamily(e) {
+                    this.applyFontFamily(e);
+                    localStorage.setItem('selectedFont', e);
+                }
+                // 新增：获取当前字体
+                getCurrentFont() {
+                    return localStorage.getItem('selectedFont') || "'Noto Sans SC', sans-serif";
+                }   
+                getSettings() {
+                    const e = parseInt(localStorage.getItem('dialogueFontSize') || '16', 10);
+                    return {
+                        speed: this.animationSpeed,
+                        type: this.animationType,
+                        fontSize: e,
+                        fontFamily: this.getCurrentFont() // 新增：返回字体设置
+                    }
                 }
                 setAnimationSpeed(e) {
                     this.animationSpeed = Math.max(5, Math.min(500, e)),
@@ -56,29 +83,6 @@
                     const t = Math.max(12, Math.min(32, e));
                     $('#dialogue-content').css('font-size', `${t}px`)
                 }
-                // 添加字体相关方法
-                setFontFamily(fontType) {
-                    this.applyFontFamilyToDialogue(fontType);
-                }
-
-                applyFontFamilyToDialogue(fontType) {
-                    const dialogueContent = $('#dialogue-content');
-                    dialogueContent.removeClass('modern elegant script cute pixel bold');
-                    dialogueContent.addClass(fontType);
-                }
-
-                // 修改getSettings方法添加字体返回
-                getSettings() {
-                    const fontSize = parseInt(localStorage.getItem('dialogueFontSize') || '16', 10);
-                    const fontFamily = localStorage.getItem('iswp_font_family') || 'modern';
-                    return {
-                        speed: this.animationSpeed,
-                        type: this.animationType,
-                        fontSize: fontSize,
-                        fontFamily: fontFamily
-                    };
-                }
-
                 async displayText(e, t, a) {
                     this.stopCurrentAnimation(),
                     this.currentText = e,
@@ -175,6 +179,14 @@
                 }
                 isPlaying() {
                     return this.isAnimating
+                }
+                getSettings() {
+                    const e = parseInt(localStorage.getItem('dialogueFontSize') || '16', 10);
+                    return {
+                        speed: this.animationSpeed,
+                        type: this.animationType,
+                        fontSize: e
+                    }
                 }
             }
             class d {
@@ -1132,6 +1144,7 @@
                     $('#fullscreen-toggle').off('change.settings'),
                     $('#reset-settings-btn').off('click.settings'),
                     $(document).off('click.settings'),
+                    $('#font-selector').off('change.settings').on('change.settings'),    
 
                     $('.theme-btn').on('click.settings', e => {
                         const t = $(e.currentTarget)
@@ -1170,12 +1183,6 @@
                         a && a.setFontSize(t)
                     }
                     ),
-                    // 添加字体选择器事件
-                    $('#font-family-selector').on('change.settings', e => {
-                        const fontType = $(e.currentTarget).val();
-                        this.applyFontFamily(fontType);
-                        console.log(`📝 字体切换为: ${fontType}`);
-                    }),
                     $('#bgm-toggle').on('change.settings', async e => {
                         const t = $(e.currentTarget).is(':checked');
                         await this.setBGMEnabled(t),
@@ -1209,29 +1216,15 @@
                             console.log('🎨 关闭设置菜单，取消背景模糊'))
                         }
                     }
-                    )
-                }
-                // 添加字体应用方法
-                applyFontFamily(fontType) {
-                    const preview = $('#font-preview');
-                    const dialogueContent = $('#dialogue-content');
-                    
-                    // 移除所有字体类
-                    preview.removeClass('modern elegant script cute pixel bold');
-                    dialogueContent.removeClass('modern elegant script cute pixel bold');
-                    
-                    // 添加新字体类
-                    preview.addClass(fontType);
-                    dialogueContent.addClass(fontType);
-                    
-                    // 保存设置
-                    try {
-                        localStorage.setItem('iswp_font_family', fontType);
-                    } catch (e) {
-                        console.warn('无法保存字体设置:', e);
+                    ),
+                    $('#font-selector').off('change.settings').on('change.settings', e => {
+                        const t = $(e.currentTarget).val();
+                        console.log(`🎨 字体切换为: ${t}`);
+                        const a = this.llmrpParser?.getTextAnimationManager();
+                        a && a.setFontFamily(t);
                     }
+                    )    
                 }
-
                 async handleDialogueNavigation(e) {
                     if (console.log(`📖 对话导航: ${e}`),
                     'next' === e) {
@@ -1294,12 +1287,8 @@
                     $('#text-speed-slider').val(n),
                     $('#text-speed-value').text(`${a}ms`),
                     $('#font-size-slider').val(t.fontSize),
-                    $('#font-size-value').text(`${t.fontSize}px`);
-                    
-                    // 初始化字体设置
-                    const fontFamily = localStorage.getItem('iswp_font_family') || 'modern';
-                    $('#font-family-selector').val(fontFamily);
-                    this.applyFontFamily(fontFamily);
+                    $('#font-size-value').text(`${t.fontSize}px`)
+                    $('#font-selector').val(t.fontFamily) // 新增：设置字体选择器当前值
                 }
                 getBreathingEffectSetting() {
                     try {
@@ -1330,9 +1319,12 @@
                         a && (a.setAnimationType('typewriter'),
                         a.setAnimationSpeed(e),
                         a.setFontSize(16)),
-                        // 重置字体设置
-                        $('#font-family-selector').val('modern'),
-                        this.applyFontFamily('modern'),
+                        $('#font-selector').val("'Noto Sans SC', sans-serif");
+                        const a = this.llmrpParser?.getTextAnimationManager();
+                        a && (a.setAnimationType('typewriter'),
+                        a.setAnimationSpeed(50),
+                        a.setFontSize(16),
+                        a.setFontFamily("'Noto Sans SC', sans-serif")), // 新增：重置字体
                         $('#bgm-toggle').prop('checked', !0),
                         this.setBGMEnabled(!0),
                         $('#fullscreen-toggle').prop('checked', !1),
@@ -1550,6 +1542,9 @@
                             $('body').attr('data-theme', e),
                             $('.theme-btn').removeClass('active'),
                             $(`.theme-btn[data-theme="${e}"]`).addClass('active')
+                            // 新增：应用保存的字体
+                            const a = localStorage.getItem('selectedFont');
+                            a && $('body').css('font-family', a);
                         } catch (e) {
                             $('body').attr('data-theme', 'dark'),
                             $('.theme-btn').removeClass('active'),
@@ -1777,9 +1772,6 @@
     );
 </script>
 <style>
-        /* 添加字体导入 */
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500&family=Kaiti+SC:wght@400;700&family=Dancing+Script:wght@400;700&family=ZCOOL+KuaiLe&family=Press+Start+2P&family=Heiti+SC:wght@400;700&display=swap');
-
         :root {
             --bg-gradient: #6262629e;
             --text-color: #f5f5f7;
@@ -1896,58 +1888,8 @@
             transition: all .4s cubic-bezier(0.25,0.46,0.45,0.94)
         }
 
-/* === 视觉小说部分开始 === */
-        #content-area {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-            transition: all .4s cubic-bezier(0.25,0.46,0.45,0.94)
-        }
-
-        .background-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            opacity: 0;
-            z-index: 2;
-            pointer-events: none;
-            transition: opacity .5s ease
-        }
-
-        .character-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            padding-bottom: 50px
-        }
-
-        .cg-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 4;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity .3s ease,visibility .3s ease;
-            pointer-events: none
-        }
-
-        .cg-layer .cg-image {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%,-50%) scale(0.85);
+        /* === 视觉小说部分开始 === */
+   {此处略去}
         /* === 视觉小说部分结束 === */
 
         /* === 设置菜单相关UI部分 === */
@@ -2568,37 +2510,82 @@
             box-shadow: 0 0 0 3px rgba(var(--accent-color-rgb),0.3)
         }
 
-        /* 在文字设置部分添加字体选择器 */
-        .text-settings-section .setting-item .font-selector-container {
-            width: 100%;
-        }
+    /* 字体选择器样式 */
+.font-selector-section {
+    margin-bottom: 16px;
+}
 
-        .text-settings-section .setting-item .modern-select.font-selector {
-            width: 100%;
-            margin-top: 8px;
-        }
+.font-selector-section label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 8px;
+}
 
-        /* 字体预览样式 */
-        .font-preview {
-            margin-top: 8px;
-            padding: 8px 12px;
-            background: var(--ui-bg);
-            border-radius: 6px;
-            font-size: 14px;
-            border: 1px solid var(--ui-border-color);
-            min-height: 40px;
-            display: flex;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
+#font-selector {
+    width: 100%;
+    padding: 8px 12px;
+    border: 2px solid var(--ui-border-color);
+    border-radius: 8px;
+    background: var(--ui-bg);
+    color: var(--text-color);
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(var(--blur-intensity));
+}
 
-        /* 不同字体的预览样式 */
-        .font-preview.modern { font-family: 'Noto Sans SC', sans-serif; }
-        .font-preview.elegant { font-family: 'Kaiti SC', serif; }
-        .font-preview.script { font-family: 'Dancing Script', cursive; }
-        .font-preview.cute { font-family: 'ZCOOL KuaiLe', cursive; }
-        .font-preview.pixel { font-family: 'Press Start 2P', cursive; }
-        .font-preview.bold { font-family: 'Heiti SC', sans-serif; }
+#font-selector:hover {
+    border-color: var(--primary-color-light);
+}
+
+#font-selector:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color-light);
+}
+
+/* 字体预览样式 */
+.font-preview {
+    font-size: 13px;
+    color: var(--text-color);
+    opacity: 0.7;
+    margin-top: 4px;
+    font-style: italic;
+}
+
+/* 不同字体的具体定义 */
+.font-modern {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 400;
+}
+
+.font-elegant {
+    font-family: 'Kaiti SC', serif;
+    font-weight: 400;
+}
+
+.font-script {
+    font-family: 'Dancing Script', cursive;
+    font-weight: 400;
+}
+
+.font-cute {
+    font-family: 'ZCOOL KuaiLe', cursive;
+    font-weight: 400;
+}
+
+.font-pixel {
+    font-family: 'Press Start 2P', cursive;
+    font-weight: 400;
+}
+
+.font-bold {
+    font-family: 'Heiti SC', sans-serif;
+    font-weight: 700;
+}
 </style>
 <body data-theme="dark">
     <div id="app-container">
@@ -2839,33 +2826,36 @@
                             </div>
                         </div>
                     </div>
-                    <!-- 新增字体选择器 -->
-                    <div class="setting-item">
-                        <div class="setting-info">
-                            <div class="setting-name">
-                                <i class="fas fa-font"></i>
-                                字体选择
-                            </div>
-                            <div class="setting-description">选择对话文字的显示字体</div>
-                        </div>
-                        <div class="setting-control">
-                            <div class="font-selector-container">
-                                <select id="font-family-selector" class="modern-select font-selector">
-                                    <option value="modern">现代简约 (默认)</option>
-                                    <option value="elegant">典雅宋体</option>
-                                    <option value="script">灵动飘逸</option>
-                                    <option value="cute">活泼可爱</option>
-                                    <option value="pixel">像素复古</option>
-                                    <option value="bold">粗犷黑体</option>
-                                </select>
-                                <div id="font-preview" class="font-preview modern">
-                                    这是一段字体预览文字，看看效果如何？
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
+            <div class="settings-section font-selector-section">
+    <div class="section-header">
+        <i class="fas fa-font"></i>
+        <label class="section-title">字体选择</label>
+    </div>
+    <div class="settings-options">
+        <div class="setting-item">
+            <div class="setting-info">
+                <div class="setting-name">
+                    <i class="fas fa-palette"></i>
+                    界面字体
+                </div>
+                <div class="setting-description">选择整体界面的显示字体</div>
+            </div>
+            <div class="setting-control">
+                <select id="font-selector" class="modern-select">
+                    <option value="'Noto Sans SC', sans-serif">现代简约 (默认)</option>
+                    <option value="'Kaiti SC', serif">典雅宋体</option>
+                    <option value="'Dancing Script', cursive">灵动飘逸</option>
+                    <option value="'ZCOOL KuaiLe', cursive">活泼可爱</option>
+                    <option value="'Press Start 2P', cursive">像素复古</option>
+                    <option value="'Heiti SC', sans-serif">粗犷黑体</option>
+                </select>
+                <div class="font-preview">预览：选择的字体将应用到整个界面</div>
+            </div>
+        </div>
+    </div>
+</div>
             <div class="settings-section default-settings-section">
                 <div class="settings-options">
                     <div class="setting-item reset-setting-item">
