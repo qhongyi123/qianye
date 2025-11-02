@@ -914,8 +914,8 @@
                     if (e.startsWith('http'))
                         return e;
                     let a = e.split('/').pop() || e;
-                    return a.includes('.') || (a += 'background' === t ? '.jpg' : '.png'),
-                    'https://postimg.cc/' + a
+                    // a.includes('.') || (a += 'background' === t ? '.jpg' : '.png'),
+                    return 'https://postimg.cc/' + a
                 }
                 preloadDialogueImages() {
                     try {
