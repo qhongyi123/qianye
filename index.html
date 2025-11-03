@@ -3026,6 +3026,7 @@
 </body>
 
 
+
 <script type="module">
     var e = {
         387: (e, t, a) => {
@@ -3039,6 +3040,7 @@
                 a.r(t);
             const i = toastr;
             var o = a.n(i);
+
 
             // 渴求环标签更新逻辑
             function initCharacterInfoMenu() {
@@ -3181,7 +3183,6 @@
                     ringEl.querySelector('.grade').textContent = gradeText;
                 }
             }
-
 
             
             class l {
@@ -4080,8 +4081,8 @@
                     if (e.startsWith('http'))
                         return e;
                     let a = e.split('/').pop() || e;
-                    return a.includes('.') || (a += 'background' === t ? '.jpg' : '.png'),
-                    'https://60997b0.webp.li/' + a
+                    // a.includes('.') || (a += 'background' === t ? '.jpg' : '.png'),
+                    return 'https://postimg.cc/' + a
                 }
                 preloadDialogueImages() {
                     try {
@@ -4397,23 +4398,33 @@
                                 console.log('🔄 设置已恢复为默认值'))
                         }
                         ),
+
+                        // 点击外部关闭所有菜单
                         $(document).on('click.settings', e => {
-                            if (!$(e.target).closest('#settings-btn, #settings-menu').length) {
-                                const e = $('#settings-menu')
-                                    , a = $('#app-container');
-                                e.hasClass('active') && (e.removeClass('active'),
-                                    a.removeClass('modal-active'),
-                                    console.log('🎨 关闭设置菜单，取消背景模糊'))
+                            // 检查点击是否在任何导航按钮或弹出菜单内
+                            const clickedInsideMenu = $(e.target).closest('.settings-popover').length > 0;
+                            const clickedNavBtn = $(e.target).closest('.nav-btn').length > 0;
+
+                            if (!clickedInsideMenu && !clickedNavBtn) {
+                                // 点击在所有菜单和按钮之外，关闭所有菜单
+                                const container = $('#app-container');
+                                const hadActiveMenu = $('.settings-popover.active').length > 0;
+
+                                if (hadActiveMenu) {
+                                    $('.settings-popover').removeClass('active');
+                                    container.removeClass('modal-active');
+                                    console.log('🎨 点击外部，关闭所有菜单');
+                                }
                             }
-                        }
-                        ),
-                        $('#font-selector').off('change.settings').on('change.settings', e => {
-                            const t = $(e.currentTarget).val();
-                            console.log(`🎨 字体切换为: ${t}`);
-                            const a = this.llmrpParser?.getTextAnimationManager();
-                            a && a.setFontFamily(t);
-                        }
-                        )
+                        });
+
+                    $('#font-selector').off('change.settings').on('change.settings', e => {
+                        const t = $(e.currentTarget).val();
+                        console.log(`🎨 字体切换为: ${t}`);
+                        const a = this.llmrpParser?.getTextAnimationManager();
+                        a && a.setFontFamily(t);
+                    }
+                    )
 
                     // 报刊标签切换
                     $('.report-tab').on('click', function () {
@@ -4437,7 +4448,7 @@
                     this.setCircularProgress('#power-progress-circle', 50, 85); // 战力85%
                     this.setCircularProgress('#desire-progress-circle', 25, 60); // 渴求度60%
 
-                    
+
                 }
                 async handleDialogueNavigation(e) {
                     if (console.log(`📖 对话导航: ${e}`),
@@ -4678,38 +4689,6 @@
                     } catch (e) {
                         console.error('全屏切换失败:', e)
                     }
-                }
-
-
-                toggleMenu(menuSelector) {
-                    const menu = $(menuSelector);
-                    const container = $('#app-container');
-
-                    // 关闭所有其他菜单
-                    $('.settings-popover').not(menu).removeClass('active');
-
-                    // 切换当前菜单
-                    menu.toggleClass('active');
-
-                    // 更新背景模糊
-                    if ($('.settings-popover.active').length > 0) {
-                        container.addClass('modal-active');
-                    } else {
-                        container.removeClass('modal-active');
-                    }
-                }
-
-                setCircularProgress(selector, radius, percent) {
-                    const circle = $(selector);
-                    if (circle.length === 0) return;
-
-                    const circumference = 2 * Math.PI * radius;
-                    const offset = circumference - (percent / 100) * circumference;
-
-                    circle.css({
-                        'stroke-dasharray': `${circumference} ${circumference}`,
-                        'stroke-dashoffset': offset
-                    });
                 }
 
 
@@ -5051,9 +5030,6 @@
         );
 </script>
 </body>
-
-
-
 
 
 
