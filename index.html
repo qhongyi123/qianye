@@ -135,821 +135,7 @@
 
 
         /* === 视觉小说部分开始 === */
-        #content-area {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-            transition: all .4s cubic-bezier(0.25, 0.46, 0.45, 0.94)
-        }
-
-        .background-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            opacity: 0;
-            z-index: 2;
-            pointer-events: none;
-            transition: opacity .5s ease
-        }
-
-        .character-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            padding-bottom: 50px
-        }
-
-        .cg-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 4;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity .3s ease, visibility .3s ease;
-            pointer-events: none
-        }
-
-        .cg-layer .cg-image {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%) scale(0.85);
-            max-width: min(92%, 1200px);
-            max-height: 82%;
-            width: auto;
-            height: auto;
-            object-fit: contain;
-            border-radius: 20px;
-            background: var(--ui-bg-heavy);
-            border: 1px solid var(--ui-border-color);
-            box-shadow: 0 2px 8px var(--shadow-color-light);
-            filter: blur(8px);
-            transition: transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 400ms ease-out, box-shadow 200ms ease;
-            pointer-events: auto;
-            cursor: pointer;
-            will-change: transform, filter
-        }
-
-        .cg-layer .cg-image:hover {
-            box-shadow: 0 4px 16px var(--shadow-color-light);
-            filter: brightness(105%);
-            transform: translate(-50%, -50%) scale(0.87)
-        }
-
-        .cg-layer .cg-image:active {
-            transform: translate(-50%, -50%) scale(0.83)
-        }
-
-        .cg-layer.active {
-            opacity: 1;
-            visibility: visible
-        }
-
-        .cg-layer.active .cg-image {
-            transform: translate(-50%, -50%) scale(1);
-            filter: blur(0)
-        }
-
-        .character-container {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            width: 100%;
-            height: 120%;
-            min-height: 400px;
-            margin-top: 0%
-        }
-
-        #character-sprite.character-sprite,
-        .character-sprite.old-sprite,
-        #character-left,
-        #character-right {
-            display: none !important;
-            visibility: hidden !important;
-            opacity: 0 !important;
-            pointer-events: none !important
-        }
-
-        .character-sprite {
-            position: absolute;
-            bottom: -50%;
-            height: 100%;
-            width: auto;
-            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
-            pointer-events: auto
-        }
-
-        .character-sprite.dynamic {
-            transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-origin: bottom center
-        }
-
-        .character-sprite.dynamic.pos-left {
-            left: 25%;
-            z-index: 3;
-            transform: translateX(-50%) translateY(-30%)
-        }
-
-        .character-sprite.dynamic.pos-center {
-            left: 50%;
-            z-index: 4;
-            transform: translateX(-50%) translateY(-30%)
-        }
-
-        .character-sprite.dynamic.pos-right {
-            left: 75%;
-            z-index: 3;
-            transform: translateX(-50%) translateY(-30%)
-        }
-
-        .character-sprite.dynamic.pos-three-left {
-            left: 15%;
-            z-index: 3;
-            transform: translateX(-50%) translateY(-30%)
-        }
-
-        .character-sprite.dynamic.pos-three-center {
-            left: 50%;
-            z-index: 4;
-            transform: translateX(-50%) translateY(-30%)
-        }
-
-        .character-sprite.dynamic.pos-three-right {
-            left: 85%;
-            z-index: 3;
-            transform: translateX(-50%) translateY(-30%)
-        }
-
-        .character-sprite.dynamic.entering {
-            opacity: 0
-        }
-
-        .character-sprite.dynamic.entering.pos-left {
-            transform: translateX(-50%) translateY(50px);
-            animation: enterFromBottomCenter .6s ease-out forwards
-        }
-
-        .character-sprite.dynamic.entering.pos-center {
-            transform: translateX(-50%) translateY(50px);
-            animation: enterFromBottomCenter .6s ease-out forwards
-        }
-
-        .character-sprite.dynamic.entering.pos-right {
-            transform: translateX(-50%) translateY(50px);
-            animation: enterFromBottomCenter .6s ease-out forwards
-        }
-
-        .character-sprite.dynamic.entering.pos-three-left {
-            transform: translateX(-50%) translateY(50px);
-            animation: enterFromBottomCenter .6s ease-out forwards
-        }
-
-        .character-sprite.dynamic.entering.pos-three-center {
-            transform: translateX(-50%) translateY(50px);
-            animation: enterFromBottomCenter .6s ease-out forwards
-        }
-
-        .character-sprite.dynamic.entering.pos-three-right {
-            transform: translateX(-50%) translateY(50px);
-            animation: enterFromBottomCenter .6s ease-out forwards
-        }
-
-        .character-sprite.dynamic.exiting {
-            animation: fadeOut .4s ease-in forwards
-        }
-
-        .character-sprite.dynamic.sprite-changing {
-            opacity: .3;
-            transform: scale(0.98);
-            transition: all .2s ease-out
-        }
-
-        .character-sprite.dynamic.dimmed {
-            filter: brightness(0.5) grayscale(0.3);
-            transition: filter .3s ease
-        }
-
-        .character-sprite:not(.dynamic) {
-            display: none !important;
-            visibility: hidden !important;
-            opacity: 0 !important
-        }
-
-        .character-sprite:not(.dynamic):not([src=""]):not([src="#"]) {
-            display: none !important
-        }
-
-        @keyframes enterFromBottomCenter {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(50px)
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(-30%)
-            }
-        }
-
-        @keyframes fadeOut {
-            from {
-                opacity: 1
-            }
-
-            to {
-                opacity: 0
-            }
-        }
-
-        .dialogue-box {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 40px);
-            max-width: 1000px;
-            z-index: 5;
-            background: var(--ui-bg-heavy);
-            backdrop-filter: blur(var(--blur-intensity));
-            -webkit-backdrop-filter: blur(var(--blur-intensity));
-            border-radius: 20px;
-            padding: 24px;
-            transition: background-color .5s ease, border-color .5s ease;
-            box-shadow: 0 8px 32px var(--shadow-color-medium);
-            border: 1px solid var(--ui-border-color);
-            pointer-events: auto
-        }
-
-        .character-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--primary-color-light)
-        }
-
-        .dialogue-text {
-            font-size: 16px;
-            line-height: 1.6;
-            color: var(--text-color);
-            margin-bottom: 16px
-        }
-
-        .dialogue-controls {
-            display: flex;
-            gap: 12px;
-            flex-shrink: 0;
-            margin-left: auto
-        }
-
-        .control-btn {
-            width: 36px;
-            height: 36px;
-            border: none;
-            background: rgba(0, 0, 0, 0);
-            color: var(--text-color);
-            cursor: pointer;
-            transition: all .3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center
-        }
-
-        .control-btn:hover {
-            color: var(--primary-color);
-            transform: scale(1.2)
-        }
-
-        .control-btn:active {
-            transform: scale(1)
-        }
-
-        .control-btn.disabled,
-        .control-btn:disabled {
-            color: var(--text-color-secondary);
-            cursor: not-allowed;
-            opacity: .5
-        }
-
-        .control-btn.disabled:hover,
-        .control-btn:disabled:hover {
-            color: var(--text-color-secondary);
-            transform: none
-        }
-
-        .control-btn i {
-            font-size: 18px
-        }
-
-        .dialogue-bottom-controls {
-            display: flex;
-            align-items: center;
-            margin-top: 16px;
-            gap: 16px
-        }
-
-        .player-choice-input {
-            flex: 1
-        }
-
-        .player-choice-input .choice-input-controls {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-            background: var(--ui-bg);
-            border: 1px solid var(--ui-border-color);
-            border-radius: 6px;
-            padding: 8px 12px
-        }
-
-        .player-choice-input .choice-input-controls .choice-input-icon {
-            color: #fff;
-            font-size: 14px;
-            flex-shrink: 0
-        }
-
-        .player-choice-input .choice-input-controls #choice-text-input {
-            flex-grow: 1;
-            padding: 6px 8px;
-            border: none;
-            background: rgba(0, 0, 0, 0);
-            color: var(--text-color);
-            font-size: 14px;
-            outline: none
-        }
-
-        .player-choice-input .choice-input-controls #choice-text-input::placeholder {
-            color: var(--text-color-secondary);
-            opacity: .7
-        }
-
-        .player-choice-input .choice-input-controls .choice-add-btn {
-            width: 32px;
-            height: 32px;
-            background: rgba(0, 0, 0, 0);
-            color: var(--text-color);
-            border: none;
-            cursor: pointer;
-            transition: all .3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0
-        }
-
-        .player-choice-input .choice-input-controls .choice-add-btn:hover {
-            color: var(--primary-color);
-            transform: scale(1.2)
-        }
-
-        .player-choice-input .choice-input-controls .choice-add-btn:active {
-            transform: scale(1)
-        }
-
-        .player-choice-input .choice-input-controls .choice-add-btn.clicked {
-            color: #34d399;
-            transform: scale(1.1)
-        }
-
-        .player-choice-input .choice-input-controls .choice-add-btn i {
-            font-size: 16px
-        }
-
-        .character-sprite.dynamic.character-shake.pos-left {
-            animation: characterShakeLeft .6s ease-in-out !important
-        }
-
-        .character-sprite.dynamic.character-shake.pos-center {
-            animation: characterShakeCenter .6s ease-in-out !important
-        }
-
-        .character-sprite.dynamic.character-shake.pos-right {
-            animation: characterShakeRight .6s ease-in-out
-        }
-
-        .character-sprite.dynamic.character-shake.pos-three-left {
-            animation: characterShakeThreeLeft .6s ease-in-out
-        }
-
-        .character-sprite.dynamic.character-shake.pos-three-center {
-            animation: characterShakeThreeCenter .6s ease-in-out
-        }
-
-        .character-sprite.dynamic.character-shake.pos-three-right {
-            animation: characterShakeThreeRight .6s ease-in-out
-        }
-
-        @keyframes characterShakeLeft {
-
-            0%,
-            100% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-
-            10%,
-            30%,
-            50%,
-            70%,
-            90% {
-                transform: translateX(-50%) translateY(-30%) translateX(-5px)
-            }
-
-            20%,
-            40%,
-            60%,
-            80% {
-                transform: translateX(-50%) translateY(-30%) translateX(5px)
-            }
-        }
-
-        @keyframes characterShakeCenter {
-
-            0%,
-            100% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-
-            10%,
-            30%,
-            50%,
-            70%,
-            90% {
-                transform: translateX(-50%) translateY(-30%) translateX(-5px)
-            }
-
-            20%,
-            40%,
-            60%,
-            80% {
-                transform: translateX(-50%) translateY(-30%) translateX(5px)
-            }
-        }
-
-        @keyframes characterShakeRight {
-
-            0%,
-            100% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-
-            10%,
-            30%,
-            50%,
-            70%,
-            90% {
-                transform: translateX(-50%) translateY(-30%) translateX(-5px)
-            }
-
-            20%,
-            40%,
-            60%,
-            80% {
-                transform: translateX(-50%) translateY(-30%) translateX(5px)
-            }
-        }
-
-        @keyframes characterShakeThreeLeft {
-
-            0%,
-            100% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-
-            10%,
-            30%,
-            50%,
-            70%,
-            90% {
-                transform: translateX(-50%) translateY(-30%) translateX(-5px)
-            }
-
-            20%,
-            40%,
-            60%,
-            80% {
-                transform: translateX(-50%) translateY(-30%) translateX(5px)
-            }
-        }
-
-        @keyframes characterShakeThreeCenter {
-
-            0%,
-            100% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-
-            10%,
-            30%,
-            50%,
-            70%,
-            90% {
-                transform: translateX(-50%) translateY(-30%) translateX(-5px)
-            }
-
-            20%,
-            40%,
-            60%,
-            80% {
-                transform: translateX(-50%) translateY(-30%) translateX(5px)
-            }
-        }
-
-        @keyframes characterShakeThreeRight {
-
-            0%,
-            100% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-
-            10%,
-            30%,
-            50%,
-            70%,
-            90% {
-                transform: translateX(-50%) translateY(-30%) translateX(-5px)
-            }
-
-            20%,
-            40%,
-            60%,
-            80% {
-                transform: translateX(-50%) translateY(-30%) translateX(5px)
-            }
-        }
-
-        .character-sprite.dynamic.character-jump-up.pos-left,
-        .character-sprite.dynamic.character-jump-up.pos-center,
-        .character-sprite.dynamic.character-jump-up.pos-right,
-        .character-sprite.dynamic.character-jump-up.pos-three-left,
-        .character-sprite.dynamic.character-jump-up.pos-three-center,
-        .character-sprite.dynamic.character-jump-up.pos-three-right {
-            animation: characterJumpUp .4s ease-out
-        }
-
-        @keyframes characterJumpUp {
-            0% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-
-            50% {
-                transform: translateX(-50%) translateY(-30%) translateY(-25px)
-            }
-
-            100% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-        }
-
-        .character-sprite.dynamic.character-jump-down.pos-left,
-        .character-sprite.dynamic.character-jump-down.pos-center,
-        .character-sprite.dynamic.character-jump-down.pos-right,
-        .character-sprite.dynamic.character-jump-down.pos-three-left,
-        .character-sprite.dynamic.character-jump-down.pos-three-center,
-        .character-sprite.dynamic.character-jump-down.pos-three-right {
-            animation: characterJumpDown .4s ease-out
-        }
-
-        @keyframes characterJumpDown {
-            0% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-
-            50% {
-                transform: translateX(-50%) translateY(-30%) translateY(15px)
-            }
-
-            100% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-        }
-
-        .character-sprite.dynamic.character-tilt.pos-left,
-        .character-sprite.dynamic.character-tilt.pos-center,
-        .character-sprite.dynamic.character-tilt.pos-right,
-        .character-sprite.dynamic.character-tilt.pos-three-left,
-        .character-sprite.dynamic.character-tilt.pos-three-center,
-        .character-sprite.dynamic.character-tilt.pos-three-right {
-            animation: characterTilt .8s ease-in-out
-        }
-
-        @keyframes characterTilt {
-            0% {
-                transform: translateX(-50%) translateY(-30%) rotate(0deg)
-            }
-
-            25% {
-                transform: translateX(-50%) translateY(-30%) rotate(-4deg)
-            }
-
-            75% {
-                transform: translateX(-50%) translateY(-30%) rotate(4deg)
-            }
-
-            100% {
-                transform: translateX(-50%) translateY(-30%) rotate(0deg)
-            }
-        }
-
-        .character-sprite.dynamic.character-shake,
-        .character-sprite.dynamic.character-jump-up,
-        .character-sprite.dynamic.character-jump-down,
-        .character-sprite.dynamic.character-tilt {
-            pointer-events: none;
-            z-index: inherit
-        }
-
-        .character-sprite.dynamic.breathing-natural.pos-left,
-        .character-sprite.dynamic.breathing-natural.pos-center,
-        .character-sprite.dynamic.breathing-natural.pos-right,
-        .character-sprite.dynamic.breathing-natural.pos-three-left,
-        .character-sprite.dynamic.breathing-natural.pos-three-center,
-        .character-sprite.dynamic.breathing-natural.pos-three-right {
-            animation: naturalBreathing 4.2s cubic-bezier(0.4, 0, 0.6, 1) infinite
-        }
-
-        .character-sprite.dynamic.breathing-sway.pos-left,
-        .character-sprite.dynamic.breathing-sway.pos-center,
-        .character-sprite.dynamic.breathing-sway.pos-right,
-        .character-sprite.dynamic.breathing-sway.pos-three-left,
-        .character-sprite.dynamic.breathing-sway.pos-three-center,
-        .character-sprite.dynamic.breathing-sway.pos-three-right {
-            animation: gentleSway 6.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite
-        }
-
-        .character-sprite.dynamic.breathing-pulse.pos-left,
-        .character-sprite.dynamic.breathing-pulse.pos-center,
-        .character-sprite.dynamic.breathing-pulse.pos-right,
-        .character-sprite.dynamic.breathing-pulse.pos-three-left,
-        .character-sprite.dynamic.breathing-pulse.pos-three-center,
-        .character-sprite.dynamic.breathing-pulse.pos-three-right {
-            animation: vitalPulse 3.8s ease-in-out infinite
-        }
-
-        .character-sprite.dynamic.breathing-natural.pos-left,
-        .character-sprite.dynamic.breathing-natural.pos-center,
-        .character-sprite.dynamic.breathing-natural.pos-right,
-        .character-sprite.dynamic.breathing-natural.pos-three-left,
-        .character-sprite.dynamic.breathing-natural.pos-three-center,
-        .character-sprite.dynamic.breathing-natural.pos-three-right {
-            animation: naturalBreathingRealistic 4s ease-out infinite
-        }
-
-        .character-sprite.dynamic.breathing-rhythmic.pos-left,
-        .character-sprite.dynamic.breathing-rhythmic.pos-center,
-        .character-sprite.dynamic.breathing-rhythmic.pos-right,
-        .character-sprite.dynamic.breathing-rhythmic.pos-three-left,
-        .character-sprite.dynamic.breathing-rhythmic.pos-three-center,
-        .character-sprite.dynamic.breathing-rhythmic.pos-three-right {
-            animation: rhythmicBreathing 2.4s linear infinite
-        }
-
-        @keyframes naturalBreathing {
-            0% {
-                transform: translateX(-50%) translateY(-30%) scale(1)
-            }
-
-            25% {
-                transform: translateX(-50%) translateY(calc(-30% - 1px)) scale(1.002)
-            }
-
-            35% {
-                transform: translateX(-50%) translateY(calc(-30% - 1.2px)) scale(1.003)
-            }
-
-            75% {
-                transform: translateX(-50%) translateY(calc(-30% + 0.8px)) scale(0.999)
-            }
-
-            100% {
-                transform: translateX(-50%) translateY(-30%) scale(1)
-            }
-        }
-
-        @keyframes gentleSway {
-            0% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-
-            25% {
-                transform: translateX(calc(-50% + 0.8px)) translateY(calc(-30% - 0.3px))
-            }
-
-            50% {
-                transform: translateX(calc(-50% + 0.2px)) translateY(calc(-30% + 0.5px))
-            }
-
-            75% {
-                transform: translateX(calc(-50% - 0.6px)) translateY(calc(-30% - 0.2px))
-            }
-
-            100% {
-                transform: translateX(-50%) translateY(-30%)
-            }
-        }
-
-        @keyframes vitalPulse {
-
-            0%,
-            100% {
-                transform: translateX(-50%) translateY(-30%) scale(1)
-            }
-
-            20% {
-                transform: translateX(-50%) translateY(-30%) scale(1.001)
-            }
-
-            50% {
-                transform: translateX(-50%) translateY(-30%) scale(1.004)
-            }
-
-            80% {
-                transform: translateX(-50%) translateY(-30%) scale(1.001)
-            }
-        }
-
-        @keyframes naturalBreathingRealistic {
-            0% {
-                transform: translateX(-50%) translateY(-30%) scale(1)
-            }
-
-            15% {
-                transform: translateX(-50%) translateY(calc(-30% - 0.3px)) scale(1.0008)
-            }
-
-            33% {
-                transform: translateX(-50%) translateY(calc(-30% - 0.6px)) scale(1.0015)
-            }
-
-            40% {
-                transform: translateX(-50%) translateY(calc(-30% - 0.6px)) scale(1.0015)
-            }
-
-            70% {
-                transform: translateX(-50%) translateY(calc(-30% - 0.2px)) scale(1.0005)
-            }
-
-            100% {
-                transform: translateX(-50%) translateY(-30%) scale(1)
-            }
-        }
-
-        @keyframes rhythmicBreathing {
-
-            0%,
-            100% {
-                transform: translateX(-50%) translateY(-30%) scale(1)
-            }
-
-            50% {
-                transform: translateX(-50%) translateY(calc(-30% + 1px)) scale(1.002)
-            }
-        }
-
-        .character-sprite.dynamic[class*=breathing-] {
-            pointer-events: auto;
-            z-index: inherit;
-            will-change: transform;
-            backface-visibility: hidden;
-            transform-style: preserve-3d
-        }
-
-        @media (prefers-reduced-motion:reduce) {
-            .character-sprite.dynamic[class*=breathing-] {
-                animation-duration: 8s !important;
-                animation-timing-function: linear !important
-            }
-
-            @keyframes naturalBreathingRealistic {
-
-                0%,
-                100% {
-                    transform: translateX(-50%) translateY(-30%) scale(1)
-                }
-
-                33% {
-                    transform: translateX(-50%) translateY(calc(-30% - 0.15px)) scale(1.0003)
-                }
-
-                40% {
-                    transform: translateX(-50%) translateY(calc(-30% - 0.15px)) scale(1.0003)
-                }
-            }
-        }
-
+        {相关代码略去}
         /* === 视觉小说部分结束 === */
 
         /* === 设置菜单相关UI部分 === */
@@ -1141,12 +327,25 @@
         }
 
         .settings-popover::-webkit-scrollbar {
-            display: none
+            width: 6px;
+        }
+
+        .settings-popover::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .settings-popover::-webkit-scrollbar-thumb {
+            background: var(--primary-color-light);
+            border-radius: 3px;
+        }
+
+        .settings-popover::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
         }
 
         .settings-popover {
-            scrollbar-width: none;
-            -ms-overflow-style: none
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-color-light) transparent;
         }
 
         .settings-popover.active {
@@ -1186,36 +385,38 @@
             transition: stroke-dashoffset 0.8s ease-out;
             transform-origin: 50% 50%;
         }
-        
+
         #craving-ring .progress-ring__bar {
             stroke: #ff7e5f;
         }
-        
-        .progress-ring__text .grade, 
+
+        .progress-ring__text .grade,
         #craving-ring .progress-ring__text .percent {
             font-size: 1.8em;
             font-weight: 700;
         }
-        
+
         .progress-ring__text .percent {
             font-size: 0.8em;
         }
-        
+
         .progress-ring__label {
             font-size: 0.8rem;
             color: var(--text-color);
             opacity: 0.8;
+            text-align: center; /* 确保标签居中 */
+            margin-top: 8px; /* 增加一点间距 */
         }
-        
+
         .avatar {
             transition: all 0.3s ease;
         }
-        
+
         .avatar:hover {
             transform: scale(1.05);
             box-shadow: 0 0 15px var(--primary-color-light);
         }
-        
+
         .identity .name {
             font-family: 'Share Tech Mono', monospace;
             white-space: nowrap;
@@ -1702,6 +903,9 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
+            margin-top: 24px; /* 在卡片内部增加顶部间距 */
+            padding-top: 24px; /* 增加顶部padding */
+            border-top: 1px solid var(--ui-border-color); /* 添加分割线 */
         }
 
         .info-row {
@@ -1732,108 +936,6 @@
             background: var(--ui-bg);
             border-radius: 6px;
             margin: 0;
-        }
-
-        /* 战力等级圆圈 */
-        .power-level-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            padding: 20px 0;
-        }
-
-        .power-level-circle {
-            position: relative;
-            width: 120px;
-            height: 120px;
-        }
-
-        .progress-ring {
-            transform: rotate(-90deg);
-        }
-
-        .progress-ring-bg {
-            fill: none;
-            stroke: var(--ui-bg);
-            stroke-width: 8;
-        }
-
-        .progress-ring-progress {
-            fill: none;
-            stroke: var(--primary-color);
-            stroke-width: 8;
-            stroke-linecap: round;
-            transition: stroke-dashoffset 0.5s ease;
-        }
-
-        .power-level-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-
-        .power-letter {
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--primary-color);
-            line-height: 1;
-        }
-
-        .power-percent {
-            font-size: 14px;
-            color: var(--text-color);
-            opacity: 0.8;
-            margin-top: 4px;
-        }
-
-        .power-label {
-            font-weight: 600;
-            color: var(--text-color);
-            font-size: 14px;
-        }
-
-        /* 渴求度 */
-        .desire-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            padding: 20px 0;
-        }
-
-        .desire-circle {
-            position: relative;
-            width: 120px;
-            height: 120px;
-        }
-
-        .progress-ring {
-            transform: rotate(-90deg);
-        }
-
-        .progress-ring-bg {
-            fill: none;
-            stroke: var(--ui-bg);
-            stroke-width: 8;
-        }
-
-        .progress-ring-progress {
-            fill: none;
-            stroke: var(--primary-color);
-            stroke-width: 8;
-            stroke-linecap: round;
-            transition: stroke-dashoffset 0.5s ease;
-        }
-
-        .desire-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
         }
 
         /* 能量槽 */
@@ -2351,23 +1453,15 @@
                 font-size: 14px;
             }
 
-            /* 人物信息适配 */
-            .power-level-circle {
-                width: 100px;
-                height: 100px;
+            /* 移动端人物信息卡片内 vital 适配 */
+            .vitals {
+                grid-template-columns: 1fr 1fr !important;
             }
-
-            .power-level-circle svg {
-                width: 100px;
-                height: 100px;
-            }
-
-            .power-letter {
-                font-size: 28px;
-            }
-
-            .power-percent {
-                font-size: 12px;
+            .progress-ring {
+                 display: flex;
+                 flex-direction: column;
+                 align-items: center;
+                 justify-content: center;
             }
 
             /* 日程列表适配 */
@@ -2632,104 +1726,126 @@
                 <i class="fas fa-user-circle"></i> 人物信息
             </h3>
 
-            <div class="status-card" style="background: var(--ui-bg-heavy); border: 1px solid var(--ui-border-color); border-radius: 20px; box-shadow: 0 10px 40px var(--shadow-color-medium); backdrop-filter: blur(var(--blur-intensity)); position: relative; overflow: hidden; width: 100%; max-width: 488px; margin: 0 auto; box-sizing: border-box;">
-                <div class="card-content" style="background: var(--ui-bg); border-radius: 18px; padding: 1.5rem; position: relative; z-index: 1;">
+            <div class="status-card"
+                style="background: var(--ui-bg-heavy); border: 1px solid var(--ui-border-color); border-radius: 20px; box-shadow: 0 10px 40px var(--shadow-color-medium); backdrop-filter: blur(var(--blur-intensity)); position: relative; overflow: hidden; width: 100%; max-width: 488px; margin: 0 auto; box-sizing: border-box;">
+                <div class="card-content"
+                    style="background: var(--ui-bg); border-radius: 18px; padding: 1.5rem; position: relative; z-index: 1;">
                     <!-- 数据输入点 -->
-                    <div id="character-data" data-name="{{角色姓名}}" data-title="{{角色身份}}" data-state="{{渴求类型}}" data-power-grade="S" data-power-percent="85" data-craving-percent="60"></div>
+                    <div id="character-data" data-name="{{角色姓名}}" data-title="{{角色身份}}" data-state="{{渴求类型}}"
+                        data-power-grade="S" data-power-percent="85" data-craving-percent="60"></div>
 
                     <!-- UI结构 -->
                     <div id="ui-structure">
                         <div class="header" style="display: flex; align-items: center; margin-bottom: 1.5rem;">
-                            <div id="avatar" class="avatar" style="width: 60px; height: 60px; border: 3px solid var(--primary-color); border-radius: 50%; background: var(--ui-bg-heavy) center/cover no-repeat; cursor: pointer; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;">
-                                <span id="avatar-placeholder" class="avatar-placeholder" style="font-size: 0.75rem; color: var(--text-color); opacity: 0.7; text-align: center; line-height: 1.2; padding: 5px;">更换头像</span>
+                            <div id="avatar" class="avatar"
+                                style="width: 60px; height: 60px; border: 3px solid var(--primary-color); border-radius: 50%; background: var(--ui-bg-heavy) center/cover no-repeat; cursor: pointer; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;">
+                                <span id="avatar-placeholder" class="avatar-placeholder"
+                                    style="font-size: 0.75rem; color: var(--text-color); opacity: 0.7; text-align: center; line-height: 1.2; padding: 5px;">更换头像</span>
                             </div>
                             <div class="identity" style="margin-left: 1rem;">
-                                <div id="char-name" class="name" style="font-family: 'Share Tech Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--text-color);">{{角色姓名}}</div>
-                                <div id="char-title" class="title" style="font-size: 0.85rem; color: var(--text-color); opacity: 0.8; background: var(--ui-bg-heavy); padding: 2px 8px; border-radius: 5px; display: inline-block; margin-top: 4px;">{{角色身份}}</div>
+                                <div id="char-name" class="name"
+                                    style="font-family: 'Share Tech Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--text-color);">
+                                    {{角色姓名}}</div>
+                                <div id="char-title" class="title"
+                                    style="font-size: 0.85rem; color: var(--text-color); opacity: 0.8; background: var(--ui-bg-heavy); padding: 2px 8px; border-radius: 5px; display: inline-block; margin-top: 4px;">
+                                    {{角色身份}}</div>
                             </div>
                         </div>
-                        <div id="vitals" class="vitals" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 1.5rem; align-items: start; justify-items: center;">
+                        <div id="vitals" class="vitals"
+                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1.5rem; align-items: start; justify-items: center;">
                             <!-- 战力等级环 -->
                             <div class="progress-ring" id="power-level-ring">
                                 <div class="progress-ring-wrapper" style="width: 100px; height: 100px; position: relative;">
-                                    <svg class="progress-ring__svg" viewBox="0 0 100 100" style="transform: rotate(-90deg); width: 100%; height: 100%;">
-                                        <circle class="progress-ring__track" stroke-width="10" fill="transparent" r="45" cx="50" cy="50" style="stroke: var(--ui-bg-heavy);"/>
-                                        <circle class="progress-ring__bar" stroke-width="10" fill="transparent" r="45" cx="50" cy="50" style="stroke: var(--primary-color); stroke-linecap: round;"/>
+                                    <svg class="progress-ring__svg" viewBox="0 0 100 100"
+                                        style="transform: rotate(-90deg); width: 100%; height: 100%;">
+                                        <circle class="progress-ring__track" stroke-width="10" fill="transparent" r="45"
+                                            cx="50" cy="50" style="stroke: var(--ui-bg-heavy);" />
+                                        <circle class="progress-ring__bar" stroke-width="10" fill="transparent" r="45"
+                                            cx="50" cy="50"
+                                            style="stroke: var(--primary-color); stroke-linecap: round;" />
                                     </svg>
-                                    <div class="progress-ring__text" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--text-color);">
+                                    <div class="progress-ring__text"
+                                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--text-color);">
                                         <span class="grade" style="font-size: 1.8em; font-weight: 700;">S</span>
                                         <span class="percent" style="font-size: 0.8em;">85%</span>
                                     </div>
                                 </div>
-                                <div class="progress-ring__label" style="font-size: 0.8rem; color: var(--text-color); opacity: 0.8;">战力等级</div>
+                                <div class="progress-ring__label">战力等级</div>
                             </div>
-                            
+
                             <!-- 渴求环 -->
                             <div class="progress-ring" id="craving-ring">
                                 <div class="progress-ring-wrapper" style="width: 100px; height: 100px; position: relative;">
-                                    <svg class="progress-ring__svg" viewBox="0 0 100 100" style="transform: rotate(-90deg); width: 100%; height: 100%;">
-                                        <circle class="progress-ring__track" stroke-width="10" fill="transparent" r="45" cx="50" cy="50" style="stroke: var(--ui-bg-heavy);"/>
-                                        <circle class="progress-ring__bar" stroke-width="10" fill="transparent" r="45" cx="50" cy="50" style="stroke: #ff7e5f; stroke-linecap: round;"/>
+                                    <svg class="progress-ring__svg" viewBox="0 0 100 100"
+                                        style="transform: rotate(-90deg); width: 100%; height: 100%;">
+                                        <circle class="progress-ring__track" stroke-width="10" fill="transparent" r="45"
+                                            cx="50" cy="50" style="stroke: var(--ui-bg-heavy);" />
+                                        <circle class="progress-ring__bar" stroke-width="10" fill="transparent" r="45"
+                                            cx="50" cy="50" style="stroke: #ff7e5f; stroke-linecap: round;" />
                                     </svg>
-                                    <div class="progress-ring__text" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--text-color);">
+                                    <div class="progress-ring__text"
+                                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--text-color);">
                                         <span class="percent" style="font-size: 1.8em; font-weight: 700;">60%</span>
                                     </div>
                                 </div>
-                                <div id="craving-label" class="progress-ring__label" style="font-size: 0.8rem; color: var(--text-color); opacity: 0.8;">
+                                <div id="craving-label" class="progress-ring__label">
                                     {{渴求类型}}渴求
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-                <!-- 能量槽 -->
-                <div class="energy-container">
-                    <span class="info-label">能量槽：</span>
-                    <div class="energy-bar-wrapper">
-                        <div class="energy-bar">
-                            <div class="energy-bar-fill" id="energy-bar-fill" style="width: 75%;"></div>
-                        </div>
-                        <span class="energy-value" id="energy-value">750/1000</span>
-                    </div>
-                </div>
+                        <!-- 能量槽, 身体状况, 背包等都移到这里 -->
+                        <div class="character-info-section">
+                            <!-- 能量槽 -->
+                            <div class="energy-container">
+                                <span class="info-label">能量槽：</span>
+                                <div class="energy-bar-wrapper">
+                                    <div class="energy-bar">
+                                        <div class="energy-bar-fill" id="energy-bar-fill" style="width: 75%;"></div>
+                                    </div>
+                                    <span class="energy-value" id="energy-value">750/1000</span>
+                                </div>
+                            </div>
 
-                <!-- 身体状况 -->
-                <div class="body-status-section">
-                    <h4 class="section-subtitle">
-                        <i class="fas fa-heartbeat"></i> 身体状况
-                    </h4>
-                    <div class="info-row">
-                        <span class="info-label">身体描述：</span>
-                        <p class="info-description" id="body-description">{{身体描述占位符}}</p>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">正面状态：</span>
-                        <div class="status-tags positive" id="positive-status">
-                            <span class="status-tag">{{正面状态1}}</span>
-                            <span class="status-tag">{{正面状态2}}</span>
-                        </div>
-                    </div>
-                    <div class="info-row">
-                        <span class="info-label">负面状态：</span>
-                        <div class="status-tags negative" id="negative-status">
-                            <span class="status-tag">{{负面状态1}}</span>
-                        </div>
-                    </div>
-                </div>
+                            <!-- 身体状况 -->
+                            <div class="body-status-section">
+                                <h4 class="section-subtitle">
+                                    <i class="fas fa-heartbeat"></i> 身体状况
+                                </h4>
+                                <div class="info-row">
+                                    <span class="info-label">身体描述：</span>
+                                    <p class="info-description" id="body-description">{{身体描述占位符}}</p>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">正面状态：</span>
+                                    <div class="status-tags positive" id="positive-status">
+                                        <span class="status-tag">{{正面状态1}}</span>
+                                        <span class="status-tag">{{正面状态2}}</span>
+                                    </div>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">负面状态：</span>
+                                    <div class="status-tags negative" id="negative-status">
+                                        <span class="status-tag">{{负面状态1}}</span>
+                                    </div>
+                                </div>
+                            </div>
 
-                <!-- 背包 -->
-                <div class="backpack-section">
-                    <h4 class="section-subtitle">
-                        <i class="fas fa-shopping-bag"></i> 背包
-                    </h4>
-                    <div class="backpack-grid" id="backpack-items">
-                        <div class="backpack-item">{{物品1}}</div>
-                        <div class="backpack-item">{{物品2}}</div>
-                        <div class="backpack-item">{{物品3}}</div>
+                            <!-- 背包 -->
+                            <div class="backpack-section">
+                                <h4 class="section-subtitle">
+                                    <i class="fas fa-shopping-bag"></i> 背包
+                                </h4>
+                                <div class="backpack-grid" id="backpack-items">
+                                    <div class="backpack-item">{{物品1}}</div>
+                                    <div class="backpack-item">{{物品2}}</div>
+                                    <div class="backpack-item">{{物品3}}</div>
+                                    <div class="backpack-item">{{物品4}}</div>
+                                    <div class="backpack-item">{{物品5}}</div>
+                                    <div class="backpack-item">{{物品6}}</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2817,22 +1933,6 @@
                     <div class="report-empty" id="weekly-empty">
                         <i class="fas fa-newspaper" style="font-size: 48px; opacity: 0.3;"></i>
                         <p>暂时还没订阅周报哦~</p>
-                    </div>
-                    <div class="report-card" id="weekly-card" style="display: none;">
-                        <div class="report-image">
-                            <img src="{{周报图片URL}}" alt="周报封面" id="weekly-image" />
-                        </div>
-                        <div class="report-text" id="weekly-text">
-                            {{周报内容}}
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 日报 -->
-                <div class="report-section" id="daily-report">
-                    <div class="report-empty" id="daily-empty">
-                        <i class="fas fa-newspaper" style="font-size: 48px; opacity: 0.3;"></i>
-                        <p>暂时还没订阅日报哦~</p>
                     </div>
                     <div class="report-card" id="daily-card" style="display: none;">
                         <div class="report-image">
