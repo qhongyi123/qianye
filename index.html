@@ -1132,9 +1132,10 @@
             transform: translateY(-10px) scale(0.95);
             transition: all .3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             z-index: 1000;
-            min-width: 200px;
-            max-width: calc(100vw - 40px);
-            max-height: calc(100vh - 100px);
+            min-width: 450px;                    / 改大：所有菜单最小宽度 /
+            width: 30vw;                         / 改大：50%屏幕宽度 /
+            max-width: 700px;                    / 改大：最大宽度 /
+            max-height: calc(100vh - 100px);     / 改大：最大高度 /
             overflow-y: auto
         }
 
@@ -2127,8 +2128,9 @@
 
         /* ========== 地图样式 ========== */
         .map-popover {
-            min-width: 400px;
-            max-width: 90vw;
+            min-width: 500px;          / 地图最小宽度 /
+            width: 50vw;               / 地图宽度（55%屏幕） /
+            max-width: 800px;          / 地图最大宽度 /
         }
 
         .map-tabs {
@@ -2254,17 +2256,20 @@
             }
 
             /* 所有弹出菜单移动端适配 */
-            .settings-popover {
-                position: fixed !important;
-                top: 50% !important;
-                left: 50% !important;
-                right: auto !important;
-                transform: translate(-50%, -50%) scale(0.95) !important;
-                width: calc(100vw - 20px) !important;
-                max-width: 380px !important;
-                max-height: calc(100vh - 60px) !important;
-                padding: 16px !important;
-                border-radius: 12px !important;
+            @media (max-width: 768px) {
+                .settings-popover {
+                    position: fixed !important;
+                    top: 50% !important;
+                    left: 50% !important;
+                    right: auto !important;
+                    transform: translate(-50%, -50%) scale(0.95) !important;
+                    /  修改移动端大小 /
+                    width: calc(100vw - 20px) !important;    / 移动端几乎全屏 /
+                    max-width: 500px !important;             / 移动端最大宽度 /
+                    max-height: calc(100vh - 60px) !important; / 移动端最大高度 */
+                    padding: 16px !important;
+                    border-radius: 12px !important;
+                }
             }
 
             .settings-popover.active {
