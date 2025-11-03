@@ -1,3 +1,5 @@
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -2199,6 +2201,255 @@
                 flex-direction: column;
             }
         }
+
+        /* ========== 移动端适配 ========== */
+        @media (max-width: 768px) {
+
+            /* 顶部导航栏适配 */
+            .top-header-container {
+                padding: 10px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .top-bar {
+                width: 100%;
+                padding: 8px 12px;
+            }
+
+            .game-info {
+                flex-wrap: wrap;
+                gap: 8px;
+                justify-content: center;
+            }
+
+            .game-date,
+            .game-time-period,
+            .game-location {
+                font-size: 12px;
+            }
+
+            /* 导航按钮适配 */
+            #main-nav {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+
+            .nav-btn {
+                min-width: auto;
+                padding: 6px;
+            }
+
+            .nav-icon {
+                width: 28px;
+                height: 28px;
+            }
+
+            .nav-icon i {
+                font-size: 14px;
+            }
+
+            .nav-text {
+                display: none !important;
+            }
+
+            /* 所有弹出菜单移动端适配 */
+            .settings-popover {
+                position: fixed !important;
+                top: 50% !important;
+                left: 50% !important;
+                right: auto !important;
+                transform: translate(-50%, -50%) scale(0.95) !important;
+                width: calc(100vw - 20px) !important;
+                max-width: 380px !important;
+                max-height: calc(100vh - 60px) !important;
+                padding: 16px !important;
+                border-radius: 12px !important;
+            }
+
+            .settings-popover.active {
+                transform: translate(-50%, -50%) scale(1) !important;
+            }
+
+            /* 菜单标题适配 */
+            .settings-popover h3 {
+                font-size: 16px !important;
+                margin-bottom: 16px !important;
+            }
+
+            /* 对话框适配 */
+            .dialogue-box {
+                bottom: 10px;
+                width: calc(100% - 20px);
+                padding: 16px;
+                border-radius: 16px;
+            }
+
+            .character-name {
+                font-size: 14px;
+            }
+
+            .dialogue-text {
+                font-size: 14px;
+            }
+
+            /* 人物信息适配 */
+            .power-level-circle {
+                width: 100px;
+                height: 100px;
+            }
+
+            .power-level-circle svg {
+                width: 100px;
+                height: 100px;
+            }
+
+            .power-letter {
+                font-size: 28px;
+            }
+
+            .power-percent {
+                font-size: 12px;
+            }
+
+            /* 日程列表适配 */
+            .schedule-day {
+                padding: 10px;
+            }
+
+            .day-name {
+                font-size: 13px;
+            }
+
+            .day-content {
+                font-size: 12px;
+            }
+
+            /* 报刊标签适配 */
+            .report-tab {
+                padding: 8px 12px;
+                font-size: 13px;
+            }
+
+            .report-text {
+                padding: 12px;
+                font-size: 12px;
+            }
+
+            /* 任务列表适配 */
+            .quest-item {
+                padding: 12px;
+            }
+
+            .quest-title {
+                font-size: 14px;
+            }
+
+            .quest-description {
+                font-size: 12px;
+            }
+
+            .quest-reward {
+                font-size: 12px;
+            }
+
+            /* 地图适配 */
+            .map-popover {
+                min-width: auto !important;
+            }
+
+            .map-tab {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+        }
+
+        /* 超小屏幕适配 (手机竖屏) */
+        @media (max-width: 480px) {
+            .settings-popover {
+                width: calc(100vw - 16px) !important;
+                padding: 12px !important;
+                max-height: calc(100vh - 40px) !important;
+            }
+
+            .game-info {
+                font-size: 11px;
+            }
+
+            .dialogue-box {
+                padding: 12px;
+            }
+
+            .character-name {
+                font-size: 13px;
+                margin-bottom: 8px;
+            }
+
+            .dialogue-text {
+                font-size: 13px;
+                margin-bottom: 12px;
+            }
+
+            .control-btn {
+                width: 32px;
+                height: 32px;
+            }
+
+            .control-btn i {
+                font-size: 16px;
+            }
+
+            /* 背包网格适配 */
+            .backpack-grid {
+                grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)) !important;
+                gap: 6px;
+            }
+
+            .backpack-item {
+                font-size: 11px;
+                padding: 6px;
+            }
+
+            /* 能量槽适配 */
+            .energy-value {
+                font-size: 12px;
+            }
+
+            /* 状态标签适配 */
+            .status-tag {
+                padding: 4px 8px;
+                font-size: 11px;
+            }
+        }
+
+        /* 横屏适配 */
+        @media (max-width: 896px) and (orientation: landscape) {
+            .settings-popover {
+                max-height: calc(100vh - 20px) !important;
+            }
+
+            .top-header-container {
+                padding: 8px 10px;
+            }
+
+            .dialogue-box {
+                bottom: 8px;
+                padding: 12px;
+            }
+        }
+
+        /* 平板适配 */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .settings-popover {
+                max-width: 500px;
+            }
+
+            .map-popover {
+                min-width: 500px;
+            }
+        }
     </style>
 
 
@@ -3697,8 +3948,8 @@
                     if (e.startsWith('http'))
                         return e;
                     let a = e.split('/').pop() || e;
-                    return a.includes('.') || (a += 'background' === t ? '.jpg' : '.png'),
-                    'https://60997b0.webp.li/' + a
+                    // a.includes('.') || (a += 'background' === t ? '.jpg' : '.png'),
+                    return 'https://postimg.cc/' + a
                 }
                 preloadDialogueImages() {
                     try {
@@ -4014,23 +4265,33 @@
                                 console.log('🔄 设置已恢复为默认值'))
                         }
                         ),
+
+                        // 点击外部关闭所有菜单
                         $(document).on('click.settings', e => {
-                            if (!$(e.target).closest('#settings-btn, #settings-menu').length) {
-                                const e = $('#settings-menu')
-                                    , a = $('#app-container');
-                                e.hasClass('active') && (e.removeClass('active'),
-                                    a.removeClass('modal-active'),
-                                    console.log('🎨 关闭设置菜单，取消背景模糊'))
+                            // 检查点击是否在任何导航按钮或弹出菜单内
+                            const clickedInsideMenu = $(e.target).closest('.settings-popover').length > 0;
+                            const clickedNavBtn = $(e.target).closest('.nav-btn').length > 0;
+
+                            if (!clickedInsideMenu && !clickedNavBtn) {
+                                // 点击在所有菜单和按钮之外，关闭所有菜单
+                                const container = $('#app-container');
+                                const hadActiveMenu = $('.settings-popover.active').length > 0;
+
+                                if (hadActiveMenu) {
+                                    $('.settings-popover').removeClass('active');
+                                    container.removeClass('modal-active');
+                                    console.log('🎨 点击外部，关闭所有菜单');
+                                }
                             }
-                        }
-                        ),
-                        $('#font-selector').off('change.settings').on('change.settings', e => {
-                            const t = $(e.currentTarget).val();
-                            console.log(`🎨 字体切换为: ${t}`);
-                            const a = this.llmrpParser?.getTextAnimationManager();
-                            a && a.setFontFamily(t);
-                        }
-                        )
+                        });
+
+                    $('#font-selector').off('change.settings').on('change.settings', e => {
+                        const t = $(e.currentTarget).val();
+                        console.log(`🎨 字体切换为: ${t}`);
+                        const a = this.llmrpParser?.getTextAnimationManager();
+                        a && a.setFontFamily(t);
+                    }
+                    )
 
                     // 报刊标签切换
                     $('.report-tab').on('click', function () {
@@ -4054,7 +4315,7 @@
                     this.setCircularProgress('#power-progress-circle', 50, 85); // 战力85%
                     this.setCircularProgress('#desire-progress-circle', 25, 60); // 渴求度60%
 
-                    
+
                 }
                 async handleDialogueNavigation(e) {
                     if (console.log(`📖 对话导航: ${e}`),
@@ -4295,38 +4556,6 @@
                     } catch (e) {
                         console.error('全屏切换失败:', e)
                     }
-                }
-
-
-                toggleMenu(menuSelector) {
-                    const menu = $(menuSelector);
-                    const container = $('#app-container');
-
-                    // 关闭所有其他菜单
-                    $('.settings-popover').not(menu).removeClass('active');
-
-                    // 切换当前菜单
-                    menu.toggleClass('active');
-
-                    // 更新背景模糊
-                    if ($('.settings-popover.active').length > 0) {
-                        container.addClass('modal-active');
-                    } else {
-                        container.removeClass('modal-active');
-                    }
-                }
-
-                setCircularProgress(selector, radius, percent) {
-                    const circle = $(selector);
-                    if (circle.length === 0) return;
-
-                    const circumference = 2 * Math.PI * radius;
-                    const offset = circumference - (percent / 100) * circumference;
-
-                    circle.css({
-                        'stroke-dasharray': `${circumference} ${circumference}`,
-                        'stroke-dashoffset': offset
-                    });
                 }
 
 
@@ -4668,3 +4897,4 @@
         );
 </script>
 </body>
+
