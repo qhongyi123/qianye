@@ -133,6 +133,7 @@
         }
 
 
+
         /* === 视觉小说部分开始 === */
         #content-area {
             flex: 1;
@@ -1132,10 +1133,10 @@
             transform: translateY(-10px) scale(0.95);
             transition: all .3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             z-index: 1000;
-            min-width: 450px;                    / 改大：所有菜单最小宽度 /
-            width: 30vw;                         / 改大：50%屏幕宽度 /
-            max-width: 700px;                    / 改大：最大宽度 /
-            max-height: calc(100vh - 100px);     / 改大：最大高度 /
+            min-width: 450px;       /*所有菜单最小宽度*/
+            width: 30vw;       /*占据屏幕宽度*/
+            max-width: 700px;        /*最大宽度*/
+            max-height: calc(100vh - 100px);     /*最大高度*/
             overflow-y: auto
         }
 
@@ -1178,6 +1179,48 @@
                 border-radius: 12px;
                 max-height: calc(100vh - 60px)
             }
+        }
+
+        /* 新增渴求环样式 */
+        .progress-ring__bar {
+            transition: stroke-dashoffset 0.8s ease-out;
+            transform-origin: 50% 50%;
+        }
+        
+        #craving-ring .progress-ring__bar {
+            stroke: #ff7e5f;
+        }
+        
+        .progress-ring__text .grade, 
+        #craving-ring .progress-ring__text .percent {
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+        
+        .progress-ring__text .percent {
+            font-size: 0.8em;
+        }
+        
+        .progress-ring__label {
+            font-size: 0.8rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+        
+        .avatar {
+            transition: all 0.3s ease;
+        }
+        
+        .avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--primary-color-light);
+        }
+        
+        .identity .name {
+            font-family: 'Share Tech Mono', monospace;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .settings-section {
@@ -2589,45 +2632,59 @@
                 <i class="fas fa-user-circle"></i> 人物信息
             </h3>
 
-            <div class="character-info-section">
-                <div class="info-row">
-                    <span class="info-label">姓名：</span>
-                    <span class="info-value" id="char-name">{{角色姓名}}</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">身份：</span>
-                    <span class="info-value" id="char-identity">{{角色身份}}</span>
-                </div>
+            <div class="status-card" style="background: var(--ui-bg-heavy); border: 1px solid var(--ui-border-color); border-radius: 20px; box-shadow: 0 10px 40px var(--shadow-color-medium); backdrop-filter: blur(var(--blur-intensity)); position: relative; overflow: hidden; width: 100%; max-width: 488px; margin: 0 auto; box-sizing: border-box;">
+                <div class="card-content" style="background: var(--ui-bg); border-radius: 18px; padding: 1.5rem; position: relative; z-index: 1;">
+                    <!-- 数据输入点 -->
+                    <div id="character-data" data-name="{{角色姓名}}" data-title="{{角色身份}}" data-state="{{渴求类型}}" data-power-grade="S" data-power-percent="85" data-craving-percent="60"></div>
 
-                <!-- 战力等级 -->
-                <div class="power-level-container">
-                    <div class="power-level-circle">
-                        <svg class="progress-ring" width="120" height="120">
-                            <circle class="progress-ring-bg" cx="60" cy="60" r="50" />
-                            <circle class="progress-ring-progress" cx="60" cy="60" r="50" id="power-progress-circle" />
-                        </svg>
-                        <div class="power-level-text">
-                            <div class="power-letter" id="power-letter">S</div>
-                            <div class="power-percent" id="power-percent">85%</div>
+                    <!-- UI结构 -->
+                    <div id="ui-structure">
+                        <div class="header" style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                            <div id="avatar" class="avatar" style="width: 60px; height: 60px; border: 3px solid var(--primary-color); border-radius: 50%; background: var(--ui-bg-heavy) center/cover no-repeat; cursor: pointer; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;">
+                                <span id="avatar-placeholder" class="avatar-placeholder" style="font-size: 0.75rem; color: var(--text-color); opacity: 0.7; text-align: center; line-height: 1.2; padding: 5px;">更换头像</span>
+                            </div>
+                            <div class="identity" style="margin-left: 1rem;">
+                                <div id="char-name" class="name" style="font-family: 'Share Tech Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--text-color);">{{角色姓名}}</div>
+                                <div id="char-title" class="title" style="font-size: 0.85rem; color: var(--text-color); opacity: 0.8; background: var(--ui-bg-heavy); padding: 2px 8px; border-radius: 5px; display: inline-block; margin-top: 4px;">{{角色身份}}</div>
+                            </div>
+                        </div>
+                        <div id="vitals" class="vitals" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 1.5rem; align-items: start; justify-items: center;">
+                            <!-- 战力等级环 -->
+                            <div class="progress-ring" id="power-level-ring">
+                                <div class="progress-ring-wrapper" style="width: 100px; height: 100px; position: relative;">
+                                    <svg class="progress-ring__svg" viewBox="0 0 100 100" style="transform: rotate(-90deg); width: 100%; height: 100%;">
+                                        <circle class="progress-ring__track" stroke-width="10" fill="transparent" r="45" cx="50" cy="50" style="stroke: var(--ui-bg-heavy);"/>
+                                        <circle class="progress-ring__bar" stroke-width="10" fill="transparent" r="45" cx="50" cy="50" style="stroke: var(--primary-color); stroke-linecap: round;"/>
+                                    </svg>
+                                    <div class="progress-ring__text" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--text-color);">
+                                        <span class="grade" style="font-size: 1.8em; font-weight: 700;">S</span>
+                                        <span class="percent" style="font-size: 0.8em;">85%</span>
+                                    </div>
+                                </div>
+                                <div class="progress-ring__label" style="font-size: 0.8rem; color: var(--text-color); opacity: 0.8;">战力等级</div>
+                            </div>
+                            
+                            <!-- 渴求环 -->
+                            <div class="progress-ring" id="craving-ring">
+                                <div class="progress-ring-wrapper" style="width: 100px; height: 100px; position: relative;">
+                                    <svg class="progress-ring__svg" viewBox="0 0 100 100" style="transform: rotate(-90deg); width: 100%; height: 100%;">
+                                        <circle class="progress-ring__track" stroke-width="10" fill="transparent" r="45" cx="50" cy="50" style="stroke: var(--ui-bg-heavy);"/>
+                                        <circle class="progress-ring__bar" stroke-width="10" fill="transparent" r="45" cx="50" cy="50" style="stroke: #ff7e5f; stroke-linecap: round;"/>
+                                    </svg>
+                                    <div class="progress-ring__text" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--text-color);">
+                                        <span class="percent" style="font-size: 1.8em; font-weight: 700;">60%</span>
+                                    </div>
+                                </div>
+                                <div id="craving-label" class="progress-ring__label" style="font-size: 0.8rem; color: var(--text-color); opacity: 0.8;">
+                                    {{渴求类型}}渴求
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="power-label">战力等级</div>
                 </div>
-
-                <!-- 渴求度 -->
-                <div class="desire-container">
-                    <div class="desire-circle">
-                        <svg class="progress-ring" width="120" height="120">
-                            <circle class="progress-ring-bg" cx="60" cy="60" r="50" />
-                            <circle class="progress-ring-progress" cx="60" cy="60" r="50" id="power-progress-circle" />
-                        </svg>
-                        <div class="desire-text">
-                            <div class="desire-level" id="desire-level">{发情程度}</div>
-                            <div class="desire-percent" id="desire-percent">85%</div>
-                        </div>
-                    </div>
-                    <div class="desire">渴求度</div>
-                </div>
+            </div>
+        </div>
+    </div>
 
                 <!-- 能量槽 -->
                 <div class="energy-container">
@@ -3054,7 +3111,6 @@
     </div>
 </body>
 
-
 <script type="module">
     var e = {
         387: (e, t, a) => {
@@ -3068,7 +3124,151 @@
                 a.r(t);
             const i = toastr;
             var o = a.n(i);
+            
+            // 渴求环标签更新逻辑
+            function initCharacterInfoMenu() {
+                // 渴求环标签更新函数
+                function updateCravingLabel() {
+                    const cravingLabel = document.getElementById('craving-label');
+                    if (!cravingLabel) return;
+                    
+                    // 这里应该从实际数据中获取渴求类型
+                    // 目前使用占位符逻辑，实际使用时需要从游戏数据中获取
+                    const cravingType = '{{渴求类型}}'; // 这里会被实际数据替换
+                    
+                    if (cravingType === 'LSP型') {
+                        cravingLabel.textContent = '以太渴求';
+                    } else if (cravingType === '以太型') {
+                        cravingLabel.textContent = 'LSP渴求';
+                    } else {
+                        cravingLabel.textContent = '渴求度'; // 默认显示
+                    }
+                }
+                
+                // 圆形进度条更新函数
+                function setRingProgress(ringEl, percent, grade) {
+                    const bar = ringEl.querySelector('.progress-ring__bar');
+                    if (!bar) return;
+                    
+                    const radius = bar.r.baseVal.value;
+                    const circumference = 2 * Math.PI * radius;
+                    
+                    bar.style.strokeDasharray = `${circumference} ${circumference}`;
+                    bar.style.strokeDashoffset = circumference - (percent / 100) * circumference;
+                    
+                    if (ringEl.querySelector('.percent')) {
+                        ringEl.querySelector('.percent').textContent = `${percent}%`;
+                    }
+                    
+                    if (grade && ringEl.querySelector('.grade')) {
+                        const gradeText = (percent < 30 ? `${grade}-` : percent > 70 ? `${grade}+` : grade);
+                        ringEl.querySelector('.grade').textContent = gradeText;
+                    }
+                }
+                
+                // 初始化进度条
+                function initProgressRings() {
+                    const powerRing = document.getElementById('power-level-ring');
+                    const cravingRing = document.getElementById('craving-ring');
+                    
+                    if (powerRing) setRingProgress(powerRing, 85, 'S');
+                    if (cravingRing) setRingProgress(cravingRing, 60, null);
+                }
+                
+                // 头像点击事件
+                function initAvatarEvents() {
+                    const avatar = document.getElementById('avatar');
+                    if (!avatar) return;
+                    
+                    avatar.addEventListener('click', function() {
+                        const input = document.createElement('input');
+                        input.type = 'file';
+                        input.accept = 'image/*';
+                        input.onchange = function(e) {
+                            const file = e.target.files[0];
+                            if (file) {
+                                const reader = new FileReader();
+                                reader.onload = function(e) {
+                                    avatar.style.backgroundImage = `url(${e.target.result})`;
+                                    document.getElementById('avatar-placeholder').style.display = 'none';
+                                };
+                                reader.readAsDataURL(file);
+                            }
+                        };
+                        input.click();
+                    });
+                }
+                
+                // 初始化所有功能
+                function initCharacterInfo() {
+                    updateCravingLabel();
+                    initProgressRings();
+                    initAvatarEvents();
+                }
+                
+                // 延迟初始化，确保DOM完全加载
+                setTimeout(initCharacterInfo, 100);
+                
+                // 监听人物信息菜单打开事件，重新初始化
+                $(document).on('click', '#character-info-btn', function() {
+                    setTimeout(initCharacterInfo, 300);
+                });
+            }
+
+            // 将渴求环相关功能集成到现有的游戏状态管理中
+            function setupGameStateIntegration() {
+                if (typeof window.gameStateManager !== 'undefined') {
+                    window.gameStateManager.updateCharacterStats = function(stats) {
+                        // 更新渴求环标签
+                        const cravingLabel = document.getElementById('craving-label');
+                        if (cravingLabel && stats.cravingType) {
+                            if (stats.cravingType === 'LSP型') {
+                                cravingLabel.textContent = '以太渴求';
+                            } else if (stats.cravingType === '以太型') {
+                                cravingLabel.textContent = 'LSP渴求';
+                            }
+                        }
+                        
+                        // 更新进度条
+                        const powerRing = document.getElementById('power-level-ring');
+                        const cravingRing = document.getElementById('craving-ring');
+                        
+                        if (powerRing && stats.powerPercent !== undefined) {
+                            setRingProgress(powerRing, stats.powerPercent, stats.powerGrade || 'S');
+                        }
+                        
+                        if (cravingRing && stats.cravingPercent !== undefined) {
+                            setRingProgress(cravingRing, stats.cravingPercent, null);
+                        }
+                    };
+                }
+            }
+
+            // 全局进度条更新函数
+            function setRingProgress(ringEl, percent, grade) {
+                if (!ringEl) return;
+                
+                const bar = ringEl.querySelector('.progress-ring__bar');
+                if (!bar) return;
+                
+                const radius = bar.r.baseVal.value;
+                const circumference = 2 * Math.PI * radius;
+                
+                bar.style.strokeDasharray = `${circumference} ${circumference}`;
+                bar.style.strokeDashoffset = circumference - (percent / 100) * circumference;
+                
+                if (ringEl.querySelector('.percent')) {
+                    ringEl.querySelector('.percent').textContent = `${percent}%`;
+                }
+                
+                if (grade && ringEl.querySelector('.grade')) {
+                    const gradeText = (percent < 30 ? `${grade}-` : percent > 70 ? `${grade}+` : grade);
+                    ringEl.querySelector('.grade').textContent = gradeText;
+                }
+            }
+
             class l {
+                // ... 现有 textAnimationManager 类的代码保持不变 ...
                 currentAnimation = null;
                 isAnimating = !1;
                 currentText = '';
@@ -3082,29 +3282,25 @@
                     const e = localStorage.getItem('textAnimationSpeed')
                         , t = localStorage.getItem('textAnimationType')
                         , a = localStorage.getItem('dialogueFontSize')
-                        , n = localStorage.getItem('selectedFont'); // 新增：读取字体设置
+                        , n = localStorage.getItem('selectedFont');
                     e && (this.animationSpeed = parseInt(e, 10)),
                         t && ['typewriter', 'fade', 'instant'].includes(t) && (this.animationType = t),
                         a && this.applyFontSize(parseInt(a, 10)),
-                        n && this.applyFontFamily(n) // 新增：应用字体
+                        n && this.applyFontFamily(n)
                 }
                 saveSettings() {
                     localStorage.setItem('textAnimationSpeed', this.animationSpeed.toString()),
                         localStorage.setItem('textAnimationType', this.animationType),
-                        localStorage.setItem('selectedFont', this.getCurrentFont()) // 新增：保存字体
+                        localStorage.setItem('selectedFont', this.getCurrentFont())
                 }
                 applyFontFamily(e) {
                     $('body').css('font-family', e);
-                    // 同时应用到对话框内容，确保立即生效
                     $('#dialogue-content').css('font-family', e);
                 }
-
-                // 新增：设置字体
                 setFontFamily(e) {
                     this.applyFontFamily(e);
                     localStorage.setItem('selectedFont', e);
                 }
-                // 新增：获取当前字体
                 getCurrentFont() {
                     return localStorage.getItem('selectedFont') || "'Noto Sans SC', sans-serif";
                 }
@@ -3227,11 +3423,13 @@
                         speed: this.animationSpeed,
                         type: this.animationType,
                         fontSize: e,
-                        fontFamily: this.getCurrentFont() // 新增：返回字体设置
+                        fontFamily: this.getCurrentFont()
                     }
                 }
             }
+
             class d {
+                // ... 现有 stageManager 类的代码保持不变 ...
                 uiController;
                 dataManager;
                 stage = [];
@@ -3529,7 +3727,9 @@
                         console.log('🌬️ Resuming breathing animation:', t))
                 }
             }
+
             class h {
+                // ... 现有 LLMRP 解析器类的代码保持不变 ...
                 dataManager;
                 uiController;
                 textAnimationManager;
@@ -3817,7 +4017,7 @@
                     let t = '<div class="dialogue-choices">';
                     e.forEach((e, a) => {
                         const n = a + 1;
-                        t += `\n        <div class="dialogue-choice-item" data-choice="${n}">\n          <div class="dialogue-choice-btn">\n            <span class="choice-text">${e}</span>\n            <button class="choice-quick-send-btn" data-choice="${n}" title="快速发送此选择">\n              <i class="fas fa-paper-plane"></i>\n            </button>\n          </div>\n        </div>\n      `
+                        t += `\n        <div class="dialogue-choice-item" data-choice="${n}">\n          <div class="dialogue-choice-btn">\n            <span class="choice-text">${e}</span>\n            <span class="choice-number">${n}</span>\n          </div>\n        </div>\n      `
                     }
                     ),
                         t += '</div>',
@@ -3833,19 +4033,7 @@
                             }),
                                 this.addChoiceToCommands(s)
                         }
-                        ),
-                        $('.choice-quick-send-btn').off('click').on('click', t => {
-                            t.stopPropagation();
-                            const a = parseInt($(t.currentTarget).data('choice'))
-                                , n = e[a - 1];
-                            console.log('🚀 快速发送选择:', {
-                                number: a,
-                                text: n
-                            }),
-                                this.handleChoiceSelection(a - 1, n)
-                        }
-                        ),
-                        this.showChoiceInput()
+                        )
                 }
                 executeCharacterAction(e, t) {
                     console.log('🎭 执行角色动作:', {
@@ -4101,7 +4289,9 @@
                         console.log('🧹 隐藏CG')
                 }
             }
+
             class r {
+                // ... 现有事件处理器类的代码保持不变 ...
                 dataManager;
                 uiController;
                 llmrpParser;
@@ -4135,39 +4325,11 @@
                         console.log('🫁 初始化呼吸效果: ' + (e ? '开启' : '关闭'))
                 }
                 setupNavigationEvents() {
-
-                    // 在设置按钮事件之前添加
-
                     // 人物信息按钮
                     $('#character-info-btn').off('click.charinfo').on('click.charinfo', e => {
                         e.stopPropagation();
                         this.toggleMenu('#character-info-menu');
                     });
-
-                    // 日程按钮
-                    $('#schedule-btn').off('click.schedule').on('click.schedule', e => {
-                        e.stopPropagation();
-                        this.toggleMenu('#schedule-menu');
-                    });
-
-                    // 报刊按钮
-                    $('#report-btn').off('click.report').on('click.report', e => {
-                        e.stopPropagation();
-                        this.toggleMenu('#report-menu');
-                    });
-
-                    // 任务按钮
-                    $('#quest-btn').off('click.quest').on('click.quest', e => {
-                        e.stopPropagation();
-                        this.toggleMenu('#quest-menu');
-                    });
-
-                    // 地图按钮
-                    $('#map-btn').off('click.map').on('click.map', e => {
-                        e.stopPropagation();
-                        this.toggleMenu('#map-menu');
-                    });
-
 
                     $('#settings-btn').off('click.settings').on('click.settings', e => {
                         e.stopPropagation();
@@ -4210,7 +4372,6 @@
                         )
                 }
                 setupSettingsEvents() {
-
                     $('.theme-btn').off('click.settings'),
                         $('#breathing-toggle').off('change.settings'),
                         $('#text-animation-type, #text-speed-slider, #font-size-slider').off('change.settings input.settings'),
@@ -4282,14 +4443,11 @@
                         }
                         ),
 
-                        // 点击外部关闭所有菜单
                         $(document).on('click.settings', e => {
-                            // 检查点击是否在任何导航按钮或弹出菜单内
                             const clickedInsideMenu = $(e.target).closest('.settings-popover').length > 0;
                             const clickedNavBtn = $(e.target).closest('.nav-btn').length > 0;
 
                             if (!clickedInsideMenu && !clickedNavBtn) {
-                                // 点击在所有菜单和按钮之外，关闭所有菜单
                                 const container = $('#app-container');
                                 const hadActiveMenu = $('.settings-popover.active').length > 0;
 
@@ -4308,30 +4466,6 @@
                         a && a.setFontFamily(t);
                     }
                     )
-
-                    // 报刊标签切换
-                    $('.report-tab').on('click', function () {
-                        const tab = $(this).data('tab');
-                        $('.report-tab').removeClass('active');
-                        $(this).addClass('active');
-                        $('.report-section').removeClass('active');
-                        $(`#${tab}-report`).addClass('active');
-                    });
-
-                    // 地图标签切换
-                    $('.map-tab').on('click', function () {
-                        const mapId = $(this).data('map');
-                        $('.map-tab').removeClass('active');
-                        $(this).addClass('active');
-                        $('.map-container').removeClass('active');
-                        $(`#map-${mapId}`).addClass('active');
-                    });
-
-                    // 设置圆形进度条
-                    this.setCircularProgress('#power-progress-circle', 50, 85); // 战力85%
-                    this.setCircularProgress('#desire-progress-circle', 25, 60); // 渴求度60%
-
-
                 }
                 async handleDialogueNavigation(e) {
                     if (console.log(`📖 对话导航: ${e}`),
@@ -4396,7 +4530,7 @@
                         $('#text-speed-value').text(`${a}ms`),
                         $('#font-size-slider').val(t.fontSize),
                         $('#font-size-value').text(`${t.fontSize}px`)
-                    $('#font-selector').val(t.fontFamily) // 新增：设置字体选择器当前值
+                    $('#font-selector').val(t.fontFamily)
                 }
                 getBreathingEffectSetting() {
                     try {
@@ -4428,7 +4562,7 @@
                         a && (a.setAnimationType('typewriter'),
                             a.setAnimationSpeed(50),
                             a.setFontSize(16),
-                            a.setFontFamily("'Noto Sans SC', sans-serif")), // 重置字体
+                            a.setFontFamily("'Noto Sans SC', sans-serif")),
                             $('#bgm-toggle').prop('checked', !0),
                             this.setBGMEnabled(!0),
                             $('#fullscreen-toggle').prop('checked', !1),
@@ -4573,43 +4707,20 @@
                         console.error('全屏切换失败:', e)
                     }
                 }
-
-
-
                 toggleMenu(menuSelector) {
                     const menu = $(menuSelector);
                     const container = $('#app-container');
 
-                    // 关闭所有其他菜单
                     $('.settings-popover').not(menu).removeClass('active');
 
-                    // 切换当前菜单
                     menu.toggleClass('active');
 
-                    // 更新背景模糊
                     if ($('.settings-popover.active').length > 0) {
                         container.addClass('modal-active');
                     } else {
                         container.removeClass('modal-active');
                     }
                 }
-
-                setCircularProgress(selector, radius, percent) {
-                    const circle = $(selector);
-                    if (circle.length === 0) return;
-
-                    const circumference = 2 * Math.PI * radius;
-                    const offset = circumference - (percent / 100) * circumference;
-
-                    circle.css({
-                        'stroke-dasharray': `${circumference} ${circumference}`,
-                        'stroke-dashoffset': offset
-                    });
-                }
-
-
-
-
                 destroy() {
                     this.cleanupKeyboardShortcuts(),
                         this.cleanupFullscreenListener(),
@@ -4622,7 +4733,9 @@
                         console.log('事件处理器已销毁')
                 }
             }
+
             class u {
+                // ... 现有 UI 控制器类的代码保持不变 ...
                 dataManager;
                 currentView = 'novel';
                 commandManager;
@@ -4665,10 +4778,12 @@
                     console.log('UI控制器已销毁')
                 }
             }
+
             let p = null
                 , v = null
                 , f = null
                 , y = null;
+
             async function C() {
                 try {
                     console.log('异世界和平界面开始加载...'),
@@ -4683,7 +4798,6 @@
                                     $('body').attr('data-theme', e),
                                     $('.theme-btn').removeClass('active'),
                                     $(`.theme-btn[data-theme="${e}"]`).addClass('active')
-                                // 新增：应用保存的字体
                                 const a = localStorage.getItem('selectedFont');
                                 a && $('body').css('font-family', a);
                             } catch (e) {
@@ -4702,6 +4816,11 @@
                         y = new h(p, v),
                         y.initialize(),
                         f.setLLMRPParser(y),
+                        
+                        // 初始化人物信息菜单功能
+                        initCharacterInfoMenu(),
+                        setupGameStateIntegration(),
+                        
                         function () {
                             let e = null
                                 , t = null;
@@ -4735,7 +4854,7 @@
                                         }
                                     } catch (e) { }
                                 else
-                                    clearInterval(a)
+                                    clearInterval(a);
                             }
                                 , 1e3);
                             window.gameMessageInterval = a
@@ -4751,6 +4870,7 @@
                 }
                 var e
             }
+
             function w() {
                 try {
                     console.log('异世界和平界面开始卸载...'),
@@ -4774,6 +4894,7 @@
                     console.error('异世界和平界面卸载时出错:', e)
                 }
             }
+
             function M() {
                 !function () {
                     try {
@@ -4828,11 +4949,13 @@
                 }(),
                     console.log('✅ 已启用角色立绘呼吸效果')
             }
+
             function I() {
                 $('.character-sprite.dynamic').removeClass('breathing-natural breathing-sway breathing-pulse breathing-rhythmic'),
                     D(),
                     console.log('🚫 已禁用所有角色立绘呼吸效果')
             }
+
             function k() {
                 return {
                     gameDataManager: p,
@@ -4841,12 +4964,15 @@
                     llmrpParser: y
                 }
             }
+
             function S() {
                 v && v.updateUI()
             }
+
             function x() {
                 console.log('游戏状态已保存')
             }
+
             function A() {
                 const e = $('.character-sprite.dynamic');
                 console.log(`🎭 找到 ${e.length} 个角色立绘`),
@@ -4856,6 +4982,7 @@
                             console.log('🫁 已为角色立绘添加自然真实呼吸效果:', e.attr('class')))
                     })
             }
+
             function D() {
                 window.characterBreathingObserver && (window.characterBreathingObserver.disconnect(),
                     delete window.characterBreathingObserver,
