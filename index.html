@@ -3025,6 +3025,7 @@
     </div>
 </body>
 
+
 <script type="module">
     var e = {
         387: (e, t, a) => {
@@ -3038,7 +3039,7 @@
                 a.r(t);
             const i = toastr;
             var o = a.n(i);
-            
+
             // 渴求环标签更新逻辑
             function initCharacterInfoMenu() {
                 // 渴求环标签更新函数
@@ -3181,8 +3182,9 @@
                 }
             }
 
+
+            
             class l {
-                // ... 现有 textAnimationManager 类的代码保持不变 ...
                 currentAnimation = null;
                 isAnimating = !1;
                 currentText = '';
@@ -3196,25 +3198,29 @@
                     const e = localStorage.getItem('textAnimationSpeed')
                         , t = localStorage.getItem('textAnimationType')
                         , a = localStorage.getItem('dialogueFontSize')
-                        , n = localStorage.getItem('selectedFont');
+                        , n = localStorage.getItem('selectedFont'); // 新增：读取字体设置
                     e && (this.animationSpeed = parseInt(e, 10)),
                         t && ['typewriter', 'fade', 'instant'].includes(t) && (this.animationType = t),
                         a && this.applyFontSize(parseInt(a, 10)),
-                        n && this.applyFontFamily(n)
+                        n && this.applyFontFamily(n) // 新增：应用字体
                 }
                 saveSettings() {
                     localStorage.setItem('textAnimationSpeed', this.animationSpeed.toString()),
                         localStorage.setItem('textAnimationType', this.animationType),
-                        localStorage.setItem('selectedFont', this.getCurrentFont())
+                        localStorage.setItem('selectedFont', this.getCurrentFont()) // 新增：保存字体
                 }
                 applyFontFamily(e) {
                     $('body').css('font-family', e);
+                    // 同时应用到对话框内容，确保立即生效
                     $('#dialogue-content').css('font-family', e);
                 }
+
+                // 新增：设置字体
                 setFontFamily(e) {
                     this.applyFontFamily(e);
                     localStorage.setItem('selectedFont', e);
                 }
+                // 新增：获取当前字体
                 getCurrentFont() {
                     return localStorage.getItem('selectedFont') || "'Noto Sans SC', sans-serif";
                 }
@@ -3337,13 +3343,11 @@
                         speed: this.animationSpeed,
                         type: this.animationType,
                         fontSize: e,
-                        fontFamily: this.getCurrentFont()
+                        fontFamily: this.getCurrentFont() // 新增：返回字体设置
                     }
                 }
             }
-
             class d {
-                // ... 现有 stageManager 类的代码保持不变 ...
                 uiController;
                 dataManager;
                 stage = [];
@@ -3641,9 +3645,7 @@
                         console.log('🌬️ Resuming breathing animation:', t))
                 }
             }
-
             class h {
-                // ... 现有 LLMRP 解析器类的代码保持不变 ...
                 dataManager;
                 uiController;
                 textAnimationManager;
@@ -3931,7 +3933,7 @@
                     let t = '<div class="dialogue-choices">';
                     e.forEach((e, a) => {
                         const n = a + 1;
-                        t += `\n        <div class="dialogue-choice-item" data-choice="${n}">\n          <div class="dialogue-choice-btn">\n            <span class="choice-text">${e}</span>\n            <span class="choice-number">${n}</span>\n          </div>\n        </div>\n      `
+                        t += `\n        <div class="dialogue-choice-item" data-choice="${n}">\n          <div class="dialogue-choice-btn">\n            <span class="choice-text">${e}</span>\n            <button class="choice-quick-send-btn" data-choice="${n}" title="快速发送此选择">\n              <i class="fas fa-paper-plane"></i>\n            </button>\n          </div>\n        </div>\n      `
                     }
                     ),
                         t += '</div>',
@@ -3947,7 +3949,19 @@
                             }),
                                 this.addChoiceToCommands(s)
                         }
-                        )
+                        ),
+                        $('.choice-quick-send-btn').off('click').on('click', t => {
+                            t.stopPropagation();
+                            const a = parseInt($(t.currentTarget).data('choice'))
+                                , n = e[a - 1];
+                            console.log('🚀 快速发送选择:', {
+                                number: a,
+                                text: n
+                            }),
+                                this.handleChoiceSelection(a - 1, n)
+                        }
+                        ),
+                        this.showChoiceInput()
                 }
                 executeCharacterAction(e, t) {
                     console.log('🎭 执行角色动作:', {
@@ -4203,9 +4217,7 @@
                         console.log('🧹 隐藏CG')
                 }
             }
-
             class r {
-                // ... 现有事件处理器类的代码保持不变 ...
                 dataManager;
                 uiController;
                 llmrpParser;
@@ -4239,11 +4251,39 @@
                         console.log('🫁 初始化呼吸效果: ' + (e ? '开启' : '关闭'))
                 }
                 setupNavigationEvents() {
+
+                    // 在设置按钮事件之前添加
+
                     // 人物信息按钮
                     $('#character-info-btn').off('click.charinfo').on('click.charinfo', e => {
                         e.stopPropagation();
                         this.toggleMenu('#character-info-menu');
                     });
+
+                    // 日程按钮
+                    $('#schedule-btn').off('click.schedule').on('click.schedule', e => {
+                        e.stopPropagation();
+                        this.toggleMenu('#schedule-menu');
+                    });
+
+                    // 报刊按钮
+                    $('#report-btn').off('click.report').on('click.report', e => {
+                        e.stopPropagation();
+                        this.toggleMenu('#report-menu');
+                    });
+
+                    // 任务按钮
+                    $('#quest-btn').off('click.quest').on('click.quest', e => {
+                        e.stopPropagation();
+                        this.toggleMenu('#quest-menu');
+                    });
+
+                    // 地图按钮
+                    $('#map-btn').off('click.map').on('click.map', e => {
+                        e.stopPropagation();
+                        this.toggleMenu('#map-menu');
+                    });
+
 
                     $('#settings-btn').off('click.settings').on('click.settings', e => {
                         e.stopPropagation();
@@ -4286,6 +4326,7 @@
                         )
                 }
                 setupSettingsEvents() {
+
                     $('.theme-btn').off('click.settings'),
                         $('#breathing-toggle').off('change.settings'),
                         $('#text-animation-type, #text-speed-slider, #font-size-slider').off('change.settings input.settings'),
@@ -4356,30 +4397,47 @@
                                 console.log('🔄 设置已恢复为默认值'))
                         }
                         ),
-
                         $(document).on('click.settings', e => {
-                            const clickedInsideMenu = $(e.target).closest('.settings-popover').length > 0;
-                            const clickedNavBtn = $(e.target).closest('.nav-btn').length > 0;
-
-                            if (!clickedInsideMenu && !clickedNavBtn) {
-                                const container = $('#app-container');
-                                const hadActiveMenu = $('.settings-popover.active').length > 0;
-
-                                if (hadActiveMenu) {
-                                    $('.settings-popover').removeClass('active');
-                                    container.removeClass('modal-active');
-                                    console.log('🎨 点击外部，关闭所有菜单');
-                                }
+                            if (!$(e.target).closest('#settings-btn, #settings-menu').length) {
+                                const e = $('#settings-menu')
+                                    , a = $('#app-container');
+                                e.hasClass('active') && (e.removeClass('active'),
+                                    a.removeClass('modal-active'),
+                                    console.log('🎨 关闭设置菜单，取消背景模糊'))
                             }
-                        });
+                        }
+                        ),
+                        $('#font-selector').off('change.settings').on('change.settings', e => {
+                            const t = $(e.currentTarget).val();
+                            console.log(`🎨 字体切换为: ${t}`);
+                            const a = this.llmrpParser?.getTextAnimationManager();
+                            a && a.setFontFamily(t);
+                        }
+                        )
 
-                    $('#font-selector').off('change.settings').on('change.settings', e => {
-                        const t = $(e.currentTarget).val();
-                        console.log(`🎨 字体切换为: ${t}`);
-                        const a = this.llmrpParser?.getTextAnimationManager();
-                        a && a.setFontFamily(t);
-                    }
-                    )
+                    // 报刊标签切换
+                    $('.report-tab').on('click', function () {
+                        const tab = $(this).data('tab');
+                        $('.report-tab').removeClass('active');
+                        $(this).addClass('active');
+                        $('.report-section').removeClass('active');
+                        $(`#${tab}-report`).addClass('active');
+                    });
+
+                    // 地图标签切换
+                    $('.map-tab').on('click', function () {
+                        const mapId = $(this).data('map');
+                        $('.map-tab').removeClass('active');
+                        $(this).addClass('active');
+                        $('.map-container').removeClass('active');
+                        $(`#map-${mapId}`).addClass('active');
+                    });
+
+                    // 设置圆形进度条
+                    this.setCircularProgress('#power-progress-circle', 50, 85); // 战力85%
+                    this.setCircularProgress('#desire-progress-circle', 25, 60); // 渴求度60%
+
+                    
                 }
                 async handleDialogueNavigation(e) {
                     if (console.log(`📖 对话导航: ${e}`),
@@ -4444,7 +4502,7 @@
                         $('#text-speed-value').text(`${a}ms`),
                         $('#font-size-slider').val(t.fontSize),
                         $('#font-size-value').text(`${t.fontSize}px`)
-                    $('#font-selector').val(t.fontFamily)
+                    $('#font-selector').val(t.fontFamily) // 新增：设置字体选择器当前值
                 }
                 getBreathingEffectSetting() {
                     try {
@@ -4476,7 +4534,7 @@
                         a && (a.setAnimationType('typewriter'),
                             a.setAnimationSpeed(50),
                             a.setFontSize(16),
-                            a.setFontFamily("'Noto Sans SC', sans-serif")),
+                            a.setFontFamily("'Noto Sans SC', sans-serif")), // 重置字体
                             $('#bgm-toggle').prop('checked', !0),
                             this.setBGMEnabled(!0),
                             $('#fullscreen-toggle').prop('checked', !1),
@@ -4621,20 +4679,75 @@
                         console.error('全屏切换失败:', e)
                     }
                 }
+
+
                 toggleMenu(menuSelector) {
                     const menu = $(menuSelector);
                     const container = $('#app-container');
 
+                    // 关闭所有其他菜单
                     $('.settings-popover').not(menu).removeClass('active');
 
+                    // 切换当前菜单
                     menu.toggleClass('active');
 
+                    // 更新背景模糊
                     if ($('.settings-popover.active').length > 0) {
                         container.addClass('modal-active');
                     } else {
                         container.removeClass('modal-active');
                     }
                 }
+
+                setCircularProgress(selector, radius, percent) {
+                    const circle = $(selector);
+                    if (circle.length === 0) return;
+
+                    const circumference = 2 * Math.PI * radius;
+                    const offset = circumference - (percent / 100) * circumference;
+
+                    circle.css({
+                        'stroke-dasharray': `${circumference} ${circumference}`,
+                        'stroke-dashoffset': offset
+                    });
+                }
+
+
+
+                toggleMenu(menuSelector) {
+                    const menu = $(menuSelector);
+                    const container = $('#app-container');
+
+                    // 关闭所有其他菜单
+                    $('.settings-popover').not(menu).removeClass('active');
+
+                    // 切换当前菜单
+                    menu.toggleClass('active');
+
+                    // 更新背景模糊
+                    if ($('.settings-popover.active').length > 0) {
+                        container.addClass('modal-active');
+                    } else {
+                        container.removeClass('modal-active');
+                    }
+                }
+
+                setCircularProgress(selector, radius, percent) {
+                    const circle = $(selector);
+                    if (circle.length === 0) return;
+
+                    const circumference = 2 * Math.PI * radius;
+                    const offset = circumference - (percent / 100) * circumference;
+
+                    circle.css({
+                        'stroke-dasharray': `${circumference} ${circumference}`,
+                        'stroke-dashoffset': offset
+                    });
+                }
+
+
+
+
                 destroy() {
                     this.cleanupKeyboardShortcuts(),
                         this.cleanupFullscreenListener(),
@@ -4647,9 +4760,7 @@
                         console.log('事件处理器已销毁')
                 }
             }
-
             class u {
-                // ... 现有 UI 控制器类的代码保持不变 ...
                 dataManager;
                 currentView = 'novel';
                 commandManager;
@@ -4692,12 +4803,10 @@
                     console.log('UI控制器已销毁')
                 }
             }
-
             let p = null
                 , v = null
                 , f = null
                 , y = null;
-
             async function C() {
                 try {
                     console.log('异世界和平界面开始加载...'),
@@ -4712,6 +4821,7 @@
                                     $('body').attr('data-theme', e),
                                     $('.theme-btn').removeClass('active'),
                                     $(`.theme-btn[data-theme="${e}"]`).addClass('active')
+                                // 新增：应用保存的字体
                                 const a = localStorage.getItem('selectedFont');
                                 a && $('body').css('font-family', a);
                             } catch (e) {
@@ -4730,11 +4840,6 @@
                         y = new h(p, v),
                         y.initialize(),
                         f.setLLMRPParser(y),
-                        
-                        // 初始化人物信息菜单功能
-                        initCharacterInfoMenu(),
-                        setupGameStateIntegration(),
-                        
                         function () {
                             let e = null
                                 , t = null;
@@ -4768,7 +4873,7 @@
                                         }
                                     } catch (e) { }
                                 else
-                                    clearInterval(a);
+                                    clearInterval(a)
                             }
                                 , 1e3);
                             window.gameMessageInterval = a
@@ -4784,7 +4889,6 @@
                 }
                 var e
             }
-
             function w() {
                 try {
                     console.log('异世界和平界面开始卸载...'),
@@ -4808,7 +4912,6 @@
                     console.error('异世界和平界面卸载时出错:', e)
                 }
             }
-
             function M() {
                 !function () {
                     try {
@@ -4863,13 +4966,11 @@
                 }(),
                     console.log('✅ 已启用角色立绘呼吸效果')
             }
-
             function I() {
                 $('.character-sprite.dynamic').removeClass('breathing-natural breathing-sway breathing-pulse breathing-rhythmic'),
                     D(),
                     console.log('🚫 已禁用所有角色立绘呼吸效果')
             }
-
             function k() {
                 return {
                     gameDataManager: p,
@@ -4878,15 +4979,12 @@
                     llmrpParser: y
                 }
             }
-
             function S() {
                 v && v.updateUI()
             }
-
             function x() {
                 console.log('游戏状态已保存')
             }
-
             function A() {
                 const e = $('.character-sprite.dynamic');
                 console.log(`🎭 找到 ${e.length} 个角色立绘`),
@@ -4896,7 +4994,6 @@
                             console.log('🫁 已为角色立绘添加自然真实呼吸效果:', e.attr('class')))
                     })
             }
-
             function D() {
                 window.characterBreathingObserver && (window.characterBreathingObserver.disconnect(),
                     delete window.characterBreathingObserver,
